@@ -23,7 +23,8 @@ Descreve o processo de reservar salas, pelo Alocador, para ministração de mat�
 2. Sistema apresenta informações da turma:
     - Nome da disicplina;
     - Data de início e de fim;
-    - Horários de aula (dia da semana e hora);- Número de alunos inscritos;
+    - Horários de aula (dia da semana e hora);
+    - Número de alunos inscritos;
 3. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de alunos inscritos. 
 4. Sistema apresenta nome, capacidade e existência de conflito das salas filtradas.
 5. Para cada horário de aula, Alocador escolhe uma sala.
@@ -34,8 +35,8 @@ Descreve o processo de reservar salas, pelo Alocador, para ministração de mat�
     1. Sistema informa que a turma especificada não está cadastrada no sistema. 
     2. Sistema retorna para Passo 1.
    
-- FA2: Turma não cadastrada no sistema (Passo 1):
-    1. Sistema informa que a turma especificada não está cadastrada no sistema. 
+- FA2: Disciplina não cadastrada no sistema (Passo 1):
+    1. Sistema informa que a disciplina especificada não está cadastrada no sistema. 
     2. Sistema retorna para Passo 1.
 #### **Pós-condição**
 - Horários de alocação da sala atualizados. 
@@ -52,10 +53,11 @@ Descreve o processo de reservar salas, pelo Alocador, para o uso em atividades p
 - Alocador logado no sistema 
 
 #### **Fluxo Básico**
-1. Alocador informa nome da atividade, data e horário da alocação, capacidade da sala e necessidade de equipamentos.
-2. Sistema apresenta salas que satisfazem as condições para a atividade.
-3. Alocador escolhe sala.
-4. Sistema salva alocação de sala. 
+1. Alocador informa nome da atividade, data e horário da alocação e capacidade da sala; 
+2. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de alunos especificado. 
+3. Sistema apresenta nome, capacidade e existência de conflito das salas filtradas.
+4. Alocador escolhe uma sala.
+5. Sistema salva alocação de salas.
 
 #### **Fluxos Alternativos** 
 - FA1: Nenhuma sala atende às condições especificadas (Passo 2)
@@ -65,6 +67,3 @@ Descreve o processo de reservar salas, pelo Alocador, para o uso em atividades p
     
 #### **Pós-condição**
 - Horários de alocação da sala atualizados. 
-
-
-
