@@ -8,6 +8,8 @@ Membros do grupo:
 
 ## **Casos de Uso**
 
+<!-- --------------------------------------------------------------------------------------- -->
+
 ### **UC1. Reservar Sala para Disciplina**
 
 Descreve o processo de reservar salas, pelo Alocador, para ministração de matérias com aulas recorrentes.
@@ -38,9 +40,15 @@ Descreve o processo de reservar salas, pelo Alocador, para ministração de mat�
 - FA2: Disciplina não cadastrada no sistema (Passo 1):
     1. Sistema informa que a disciplina especificada não está cadastrada no sistema. 
     2. Sistema retorna para Passo 1.
+
+- FA3: Nenhuma sala atende às condições especificadas (Passo 3)
+    1. Sistema informa que não há salas disponíveis com as especificações. 
+    2. Alocador edita informações do passo 1.
+    3. Sistema retorna para Passo 3.
 #### **Pós-condição**
 - Horários de alocação da sala atualizados. 
 
+<!-- --------------------------------------------------------------------------------------- -->
 
 ### **UC2. Reservar Sala para Atividade**
 
@@ -67,3 +75,67 @@ Descreve o processo de reservar salas, pelo Alocador, para o uso em atividades p
     
 #### **Pós-condição**
 - Horários de alocação da sala atualizados. 
+
+<!-- --------------------------------------------------------------------------------------- -->
+
+### **UC3. Gerencia Usuário**
+
+Descreve a listagem, cadastro, atualização e remoção de usuários.
+
+#### **Atores**
+- Usuário do USPolis.
+
+#### **Pré-condição** 
+- Não há. 
+
+#### **Fluxo Básico**
+
+
+
+
+#### **Fluxos Alternativos** 
+- FA1: Usuário solicita deleção do  perfil (Delete)
+    1. Usuário seleciona opção de "Excluir Usuário";
+    2. Sistema exibe mensagem de confirmação de exclusão de usuário; 
+    3. Usuário confirma exclusão;
+    4. Sistema remove registro do usuário;
+    5. Sistema exibe mensagem de confirmação de exclusão;
+
+- FA2: Usuário solicita edição da conta (Update)
+    1. Usuário seleciona opção de "Editar Informações";
+    2. Sistema apresenta as informações do Usuário; 
+    3. Usuário seleciona informação a ser editada;
+    4. Usuário modifica informação selecionada; 
+    5. Sistema valida as informações; 
+    6. Usuário confirma a atualização; 
+    7. Sistema atualiza o registro; 
+    8. Sistema exibe mensagem de confirmação da edição; 
+
+- FA3: Usuário deseja criar nova conta (Create)
+    1. Usuário seleciona opção de "Cadastrar Usuário";
+    2. Sistema apresenta formulário para preenchimento das informações da nova conta; 
+    3. Usuário preenche dados (nome, NUSP, e-mail, senha escolhida, departamento) e confirma criação da nova conta; 
+    4. Sistema valida os dados e cria novo registro de usuário; 
+    5. Sistema exibe mensagem de confirmação da criação de usuário; 
+
+
+
+
+#### **Pós-condição**
+- Usuário logado no sistema 
+
+<!-- --------------------------------------------------------------------------------------- -->
+### **UC4. Consulta Alocações**
+Lista as informações de datas e horários de alocações existentes. Permite filtragem por sala, disciplina e prédio.
+
+<!-- --------------------------------------------------------------------------------------- -->
+
+### **UC5. Gerencia Sala**
+Descreve a listagem, cadastro, atualização e remoção de salas.
+Cada sala contém as informações:
+    - identificador (nome da sala);
+    - capacidade;
+    - prédio;
+    - datas e horários alocados;
+
+<!-- --------------------------------------------------------------------------------------- -->
