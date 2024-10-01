@@ -1,5 +1,5 @@
 # **USPolis**
-Projeto didático baseado na plataforma USPolis, executado para a disciplina PCS3643 - Laboratório de Engenharia de Software I
+Projeto didático baseado na plataforma USPolis, executado para a disciplina PCS3643 - Laboratório de Engenharia de Software I. 
 
 Membros do grupo:
 - Bárbara Bueno - NUSP 13679530
@@ -19,18 +19,24 @@ Descreve o processo de reservar salas, pelo Alocador, para ministração de mat�
 - Alocador logado no sistema 
 
 #### **Fluxo Básico**
-1. Alocador informa código da turma.
+1. Alocador informa código da disciplina e código da turma.
 2. Sistema apresenta informações da turma:
-3.  -nome da disicplina, data, horário, número de alunos, data de inicio e de fim, necessidade de equipamentos, professor, 
-4. Sistema apresenta salas que satisfazem as condições para a turma.
-5. Alocador escolhe sala.
-6. Sistema salva alocação de sala.
+    - Nome da disicplina;
+    - Data de início e de fim;
+    - Horários de aula (dia da semana e hora);- Número de alunos inscritos;
+3. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de alunos inscritos. 
+4. Sistema apresenta nome, capacidade e existência de conflito das salas filtradas.
+5. Para cada horário de aula, Alocador escolhe uma sala.
+6. Sistema salva alocação de salas.
 
 #### **Fluxos Alternativos** 
 - FA1: Turma não cadastrada no sistema (Passo 1):
     1. Sistema informa que a turma especificada não está cadastrada no sistema. 
     2. Sistema retorna para Passo 1.
-
+   
+- FA2: Turma não cadastrada no sistema (Passo 1):
+    1. Sistema informa que a turma especificada não está cadastrada no sistema. 
+    2. Sistema retorna para Passo 1.
 #### **Pós-condição**
 - Horários de alocação da sala atualizados. 
 
