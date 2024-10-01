@@ -1,15 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react'
+import Menu from './components/Menu';
 
 function App() {
+
   return (
     <ChakraProvider>
       <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello World!</p>
+        <Menu />
       </header>
     </div>
     </ChakraProvider>
