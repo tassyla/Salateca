@@ -1,0 +1,49 @@
+@startuml Classes
+skinparam style strictuml
+
+class Classroom {
+    code: String
+    capacity: int
+}
+
+class Allocator {
+} 
+
+class Class {
+    code: String
+    numberOfStudents: int 
+    startDate: Date
+    endDate: Date
+}
+
+class Schedule {
+    dayOfTheWeek: String
+    startTime: Time
+    endTime: Time
+}
+
+class Course {
+    code: String
+    name: String
+}
+
+class Allocation {
+}
+
+class Building {
+    name: String
+}
+
+' One course has many classes
+Course "1" -- "*" "Class"
+
+' Many schedules have one class
+Schedule "*" --  "1" Class
+
+' Many classes have one classroom
+Allocation "*" -- "1" Classroom: reserves >
+Allocation "0...1" -- "1" Schedule
+Allocator "*" -- "1" Building: works at > 
+Building "1" -- "*" Classroom
+
+@enduml
