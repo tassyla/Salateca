@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { ChakraProvider } from '@chakra-ui/react'
 import Menu from './components/Menu';
+import ClassroomAllocation from './components/ClassroomAllocation';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
       <div className="App">
       <header className="App-header">
         <Menu />
+        <ClassroomAllocation />
       </header>
     </div>
     </ChakraProvider>
