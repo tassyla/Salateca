@@ -34,6 +34,9 @@ class Building {
     name: String
 }
 
+class CoursePortfolio {
+}
+
 ' One course has many classes
 Course "1" -- "*" "Class"
 
@@ -45,5 +48,6 @@ Allocation "*" -- "1" Classroom: reserves >
 Allocation "0...1" -- "1" Schedule
 Allocator "*" -- "1" Building: works at > 
 Building "1" -- "*" Classroom
+CoursePortfolio "1" -- "*" Course
 
 @enduml
