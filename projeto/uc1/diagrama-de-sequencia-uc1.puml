@@ -1,0 +1,65 @@
+@startuml Sequencia
+skinparam style strictuml
+autoactivate on
+
+actor Alocador
+participant Tela as t
+participant Controlador as c
+participant PortfólioDisciplinas as pd
+participant "Disciplina" as d
+participant Turma as tu
+participant Prédio as p
+participant Sala as s
+participant Horários as h
+participant Alocação as a
+participant Alocação as a2
+
+Alocador -> t : informa disciplina \n(código_disciplina)
+    t -> c : getTurmas(codigo_disciplina)
+        c -> pd : getDisciplina(codigo_disciplina)
+        return d
+            c -> d : getTurmas()
+            return t[]
+        return t[]
+    return 
+
+Alocador -> t : seleciona turma (código_turma, \ncódigo_disciplina)
+    t -> c : getInformaçõesTurma(código_turma, código_disciplina)
+        c -> pd : getDisciplina(codigo_disciplina)
+        return d
+       
+        c -> d : getInformaçõesTurma(código_turma)
+        d -> tu : getInformaçõesTurma(código_turma)
+        tu -> h : getHorários()
+        return h[]
+    return t, h[]
+        
+        return t, h[]
+    c -> p : getSalasCompatíveis(t.quantidadedeAlunos)
+    return s[]
+    loop para cada sala
+        c -> s : getConflito(h)
+        loop para cada alocação
+            s -> a : getConflito(h)
+            return existe_conflito
+        end
+        return existe_pelo_menos_um_conflito
+    end
+    
+return informações
+return 
+
+
+Alocador -> t : escolhe sala para \ncada horário ({s,h}[])
+    t -> c : alocarSalas({s,h}[])
+    loop para cada conjunto (sala, horário)
+        c -> s : alocar(s,h)
+        create a2
+        s -> a2 : << create >>
+        return
+    return
+    end
+return 
+return
+    
+@enduml
