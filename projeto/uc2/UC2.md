@@ -10,7 +10,7 @@ Descreve o processo de reservar salas, pelo Alocador, para o uso em atividades p
 
 #### **Fluxo Básico**
 1. Alocador informa nome da atividade, data e horário de início e fim da alocação e número de participantes; 
-2. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de alunos especificado.
+2. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de participantes especificado.
 3. Sistema apresenta nome, capacidade e existência de conflito das salas filtradas.
 4. Alocador escolhe uma sala.
 5. Sistema salva alocação de salas.

@@ -10,14 +10,14 @@ participant Sala as s
 participant Alocação as a
 participant Alocação as a2
 
-Alocador -> t : informa nome da atividade, data (d),\nhorário (h) e capacidade (c)
-    t -> c : getSalasCompativeis(info.capacidade)
-        c -> p : getSalasCompatíveis(info.c)
+Alocador -> t : informa dados da atividade\n(nome, data, horário_inicio, \nhorário_fim e número_participantes)
+    t -> c : getSalasCompativeis(número_participantes)
+        c -> p : getSalasCompatíveis\n(número_de_participantes)
             return s[]
         loop para cada sala
-        c -> s : getConflito(info.d, info.h)
+        c -> s : getConflitoAtividade(data, horário_inicio, horário_fim)
         loop para cada alocação
-            s -> a : getConflito(info.d, info.h)
+            s -> a : getConflitoAtividade(data, horário_inicio, horário_fim)
             return existe_conflito
         end
         return existe_pelo_menos_um_conflito
@@ -26,10 +26,10 @@ Alocador -> t : informa nome da atividade, data (d),\nhorário (h) e capacidade 
 return informações
 return 
 
-Alocador -> t : escolhe sala
-    t -> c : alocarSala(s,h)
+Alocador -> t : escolhe sala (s)
+    t -> c : alocarSalaAtividade(s, data, horário_inicio, horário_fim)
     
-    c -> s : alocar(s,h)
+    c -> s : alocarSalaAtividade(s, data, horário_inicio, horário_fim)
     create a2
         s -> a2 : << create >>
     return 
