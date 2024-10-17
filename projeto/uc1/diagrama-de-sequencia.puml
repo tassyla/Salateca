@@ -53,7 +53,7 @@ return
 Alocador -> t : escolhe sala para \ncada horário ({s,h}[])
     t -> c : alocarSalas({s,h}[])
     loop para cada conjunto (sala, horário)
-        c -> s : criarAlocação()
+        c -> s : alocar(s,h)
         create a2
         s -> a2 : << create >>
         return

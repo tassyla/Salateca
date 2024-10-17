@@ -18,10 +18,9 @@ Descreve o processo de reservar salas, pelo Alocador, para ministração de mat�
     - Data de início e de fim;
     - Horários de aula (dia da semana e hora);
     - Número de alunos inscritos;
-5. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de alunos inscritos. 
-6. Sistema apresenta código, capacidade e existência de conflito das salas filtradas.
-7. Para cada horário de aula, Alocador escolhe uma sala.
-8. Sistema salva alocação de salas.
+5. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de alunos inscritos e apresenta código, capacidade e existência de conflito das salas filtradas.
+5. Para cada horário de aula, Alocador escolhe uma sala.
+6. Sistema salva alocação de salas.
 
 #### **Fluxos Alternativos** 
 - FA1: Turma não cadastrada no sistema (Passo 1):

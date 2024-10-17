@@ -1,0 +1,42 @@
+@startuml Sequencia
+skinparam style strictuml
+autoactivate on
+
+actor Alocador
+participant Tela as t
+participant Controlador as c
+participant Prédio as p
+participant Sala as s
+participant Alocação as a
+participant Alocação as a2
+
+Alocador -> t : informa nome da atividade, data (d),\nhorário (h) e capacidade (c)
+    t -> c : getSalasCompativeis(info.capacidade)
+        c -> p : getSalasCompatíveis(info.c)
+            return s[]
+        loop para cada sala
+        c -> s : getConflito(info.d, info.h)
+        loop para cada alocação
+            s -> a : getConflito(info.d, info.h)
+            return existe_conflito
+        end
+        return existe_pelo_menos_um_conflito
+    end
+    
+return informações
+return 
+
+Alocador -> t : escolhe sala
+    t -> c : alocarSala(s,h)
+    
+    c -> s : alocar(s,h)
+    create a2
+        s -> a2 : << create >>
+    return 
+return 
+return
+return 
+
+
+
+@enduml
