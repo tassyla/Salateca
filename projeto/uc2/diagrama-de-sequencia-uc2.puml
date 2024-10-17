@@ -36,7 +36,4 @@ Alocador -> t : escolhe sala (s)
 return 
 return
 return 
-
-
-
 @enduml
