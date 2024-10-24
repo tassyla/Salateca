@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/salateca/static/css/main.8a685450.css",
+    "main.js": "/salateca/static/js/main.0846180e.js",
+    "static/js/737.9fa985b4.chunk.js": "/salateca/static/js/737.9fa985b4.chunk.js",
+    "index.html": "/salateca/index.html",
+    "main.8a685450.css.map": "/salateca/static/css/main.8a685450.css.map",
+    "main.0846180e.js.map": "/salateca/static/js/main.0846180e.js.map",
+    "737.9fa985b4.chunk.js.map": "/salateca/static/js/737.9fa985b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a685450.css",
+    "static/js/main.0846180e.js"
+  ]
+}

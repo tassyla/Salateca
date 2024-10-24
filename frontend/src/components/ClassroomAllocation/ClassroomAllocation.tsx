@@ -3,13 +3,22 @@ import { Flex, Text } from '@chakra-ui/react';
 import { StyledBox, StyledTitle, StyledInput, StyledButton, StyledSelect } from './ClassroomAllocation.styles';
 
 const ClassroomAllocation = () => {
-  const [disciplineId, setDisciplineId] = useState('');
+  const [idDisciplina, setidDisciplina] = useState('');
   const [classes, setClasses] = useState<string[]>([]);
   const [selectedClass, setSelectedClass] = useState('');
 
-  const handleSearch = () => {
-    // Exemplos de Turmas
-    setClasses(['Class 1', 'Class 2', 'Class 3']);
+  const handleSearch = async () => {
+    try {
+      //const response = await fetch(`api/turmas/${idDisciplina}`);
+      const response = await fetch(`/salateca/api/turmas/123`);
+      const data = await response.json();
+      
+      const classNames = data.map((classItem: {nome: string}) => classItem.nome);
+      console.log('Fetched Classes:', classNames);
+      setClasses(classNames);
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+    }
   };
 
   const handleNext = () => {
@@ -22,11 +31,11 @@ const ClassroomAllocation = () => {
       <Text fontSize="18px" mb="8px">Código da Disciplina</Text>
       <StyledInput 
         placeholder="Digite o código da disciplina"
-        value={disciplineId}
-        onChange={(e) => setDisciplineId(e.target.value)}
+        value={idDisciplina}
+        onChange={(e) => setidDisciplina(e.target.value)}
       />
       <StyledButton onClick={handleSearch}>Pesquisar</StyledButton>
-      
+
       {classes.length > 0 && (
         <>
           <Text fontSize="18px" mb="8px">Selecione a Turma</Text>
