@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.usp.pcs.labsoft.salateca.entity.GerenciadorDeAlocacoes;
+import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeAlocacoes;
 import br.usp.pcs.labsoft.salateca.entity.Turma;
 
 @RestController
