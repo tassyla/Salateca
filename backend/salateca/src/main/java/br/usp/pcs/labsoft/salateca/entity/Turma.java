@@ -1,16 +1,32 @@
 package br.usp.pcs.labsoft.salateca.entity;
 
-public class Turma {
-    private String nome;
-    private String id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
-    public Turma(String nome, String id) {
-        this.nome = nome;
-        this.id = id;
+
+@Entity
+public class Turma {
+    @Id
+    @GeneratedValue
+    private long id;
+    private String nome;
+    private String codigo;
+    @ManyToOne
+    private Disciplina disciplina;
+
+    public Turma(){
+        
     }
 
-    public String getId () {
-        return this.id;
+    public Turma(String nome, String codigo) {
+        this.nome = nome;
+        this.codigo = codigo;
+    }
+
+    public String getCodigo () {
+        return this.codigo;
     }
 
     public String getNome () {

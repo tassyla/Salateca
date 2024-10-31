@@ -1,4 +1,4 @@
-package br.usp.pcs.labsoft.salateca.entity;
+package br.usp.pcs.labsoft.salateca.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
