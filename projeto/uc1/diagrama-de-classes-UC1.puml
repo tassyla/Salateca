@@ -1,53 +1,67 @@
 @startuml Classes
 skinparam style strictuml
 
-class Classroom {
-    code: String
-    capacity: int
+class Sala {
+    codigo: String
+    capacidade: int
+    acessibilidade: Boolean
 }
 
-class Allocator {
-} 
-
-class Class {
-    code: String
-    numberOfStudents: int 
-    startDate: Date
-    endDate: Date
+class Turma {
+    codigo: String
+    quantidadeAlunos: int 
+    recorrencia: String
+    professor: String
+    dataInicio: Date
+    dataFim: Date
+    acessibilidade: Boolean
+    ' disicplina '
+    ' horario '
 }
 
-class Schedule {
-    dayOfTheWeek: String
-    startTime: Time
-    endTime: Time
+class Horario {
+    diaDaSemana: String
+    horarioInicio: Time
+    horarioFim: Time
 }
 
-class Course {
-    code: String
-    name: String
+class Disciplina {
+    codigo: String
+    nome: String
 }
 
-class Allocation {
+class Alocacao {
 }
 
-class Building {
-    name: String
+class Atividade {
+    nome: String
+    quantidadeParticipantes: int 
+    Data: Date
+    ' Horario '
+    acessibilidade: Boolean
+
 }
 
-class CoursePortfolio {
+class RequerComputador {
+    quantidadeComputadores: int
+    sistemaOperacional: String
 }
 
-' One course has many classes
-Course "1" -- "*" "Class"
+class ComputadorSala {
+    quantidadeComputadores: int
+    sistemaOperacional: String
+    tecnicoResponsavel: String
+}
 
-' Many schedules have one class
-Schedule "*" --  "1" Class
+Disciplina "1" -- "*" "Turma"
 
-' Many classes have one classroom
-Allocation "*" -- "1" Classroom: reserves >
-Allocation "0...1" -- "1" Schedule
-Allocator "*" -- "1" Building: works at > 
-Building "1" -- "*" Classroom
-CoursePortfolio "1" -- "*" Course
+Horario "1*" --  "1" Turma
+Horario "1*" --  "1" Atividade
 
+Alocacao "*" -- "1" Sala: reserva >
+Alocacao "0...1" -- "1" Horario
+
+ComputadorSala "*" -- "1" Sala
+RequerComputador "*" -- "1" "Turma"
+RequerComputador "*" -- "1" "Atividade"
 @enduml

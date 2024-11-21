@@ -1,25 +1,33 @@
 ### **UC2. Reservar Sala para Atividade**
 
-Descreve o processo de reservar salas, pelo Alocador, para o uso em atividades pontuais.
+Descreve o processo de reservar salas para o uso em atividades pontuais.
 
 #### **Atores**
-- Alocador (Professor, Secretaria, Responsável pela alocação)
+- Alocador
 
-#### **Pré-condição** 
-- Alocador logado no sistema 
+#### **Pré-condição**
+- Não há
 
 #### **Fluxo Básico**
-1. Alocador informa nome da atividade, data e horário de início e fim da alocação e número de participantes; 
-2. Sistema filtra salas do prédio do Alocador com capacidade maior ou igual ao número de participantes especificado.
-3. Sistema apresenta nome, capacidade e existência de conflito das salas filtradas.
-4. Alocador escolhe uma sala.
-5. Sistema salva alocação de salas.
+1. Alocador informa:
+   - Nome da atividade;
+   - Data e horário de início e fim da alocação;
+   - Número de participantes;
+   - Necessidade de equipamentos (quantidade de computadores necessários e sistema operacional);
+   - Acessibilidade.
+2. Sistema filtra salas com capacidade maior ou igual ao número de participantes que atendem às necessidades de equipamento e acessibilidade, apresentando:
+   - Código da sala;
+   - Capacidade;
+   - Informações de equipamento (quantidade de computadores, sistema operacional e técnico responsável);
+   - Acessibilidade;
+   - Existência de conflito.
+3. Alocador escolhe uma sala.
+4. Sistema salva a alocação da sala.
 
-#### **Fluxos Alternativos** 
-- FA1: Nenhuma sala atende às condições especificadas (Passo 2)
-    1. Sistema informa que não há salas disponíveis com as especificações. 
-    2. Alocador edita informações do passo 1.
-    3. Sistema retorna para Passo 2.
-    
+#### **Fluxos Alternativos**
+- **FA1: Nenhuma sala atende às condições especificadas (Passo 1):**
+  1. Sistema informa que não há salas disponíveis que atendam às especificações.
+  2. Sistema retorna para Passo 1.
+
 #### **Pós-condição**
-- Horários de alocação da sala atualizados. 
+- É criada uma alocação de sala para o horário da atividade especificada.

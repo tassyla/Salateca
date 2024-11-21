@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, Box, RadioGroup } from '@chakra-ui/react';
+import { Box, RadioGroup } from '@chakra-ui/react';
 import { StyledHead, StyledBox } from './ClassSelection.styles';
 import RadioCard from './components/RadioCard'
 
@@ -23,7 +23,6 @@ const InformacoesTurma = () => {
       console.error('Error fetching classes:', error);
     }
   };
-
 
   return (
     <Box>
