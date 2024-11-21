@@ -6,9 +6,9 @@ const Menu = () => (
   <StyledBox>
     <Flex justify="flex-end">
       <StyledLink href="#home">Home</StyledLink>
-      <StyledLink href="#about">About</StyledLink>
-      <StyledLink href="#services">Services</StyledLink>
-      <StyledLink href="#contact">Contact</StyledLink>
+      <StyledLink href="#about">Sobre</StyledLink>
+      <StyledLink href="#services">Salas</StyledLink>
+      <StyledLink href="#contact">Perfil</StyledLink>
     </Flex>
   </StyledBox>
 );
