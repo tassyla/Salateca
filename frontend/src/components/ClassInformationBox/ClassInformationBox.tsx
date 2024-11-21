@@ -47,6 +47,7 @@ const InformacoesTurma = () => {
       </StyledSubtitle>
 
       <List spacing={2}>
+        //TO DO
         <ListItem>Segunda-feira: 08:00 - 10:00</ListItem>
         <ListItem>Quarta-feira: 10:00 - 12:00</ListItem>
         <ListItem>Sexta-feira: 14:00 - 16:00</ListItem>

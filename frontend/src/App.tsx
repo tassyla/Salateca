@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import Menu from './components/Menu';
 import ClassroomAllocation from './components/ClassroomAllocation';
 import ClassInformationBox from './components/ClassInformationBox';
+import ClassSelection from './components/ClassSelection';
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Menu />
         <ClassroomAllocation />
         <ClassInformationBox />
+        <ClassSelection />
 
       </header>
     </div>
