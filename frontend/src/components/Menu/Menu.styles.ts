@@ -12,7 +12,7 @@ export const StyledBox = styled(Box)`
 export const StyledLink = styled(Link)`
   position: relative;
   padding: 15px;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(5px + 2vmin);
   text-decoration: none;
 
   &:hover {

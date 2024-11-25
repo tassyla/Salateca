@@ -5,10 +5,10 @@ autoactivate on
 actor Alocador
 participant Tela as t
 participant Controlador as c
-participant PortfólioDisciplinas as pd
+participant GerenciadorDisciplinas as gd
 participant "Disciplina" as d
 participant Turma as tu
-participant Prédio as p
+participant GerenciadorSalas as gs
 participant Sala as s
 participant Horários as h
 participant Alocação as a
@@ -16,7 +16,7 @@ participant Alocação as a2
 
 Alocador -> t : informa disciplina \n(código_disciplina)
     t -> c : getTurmas(codigo_disciplina)
-        c -> pd : getDisciplina(codigo_disciplina)
+        c -> gd : getDisciplina(codigo_disciplina)
         return d
             c -> d : getTurmas()
             return t[]
@@ -25,7 +25,7 @@ Alocador -> t : informa disciplina \n(código_disciplina)
 
 Alocador -> t : seleciona turma (código_turma, \ncódigo_disciplina)
     t -> c : getInformaçõesTurma(código_turma, código_disciplina)
-        c -> pd : getDisciplina(codigo_disciplina)
+        c -> gd : getDisciplina(codigo_disciplina)
         return d
        
         c -> d : getInformaçõesTurma(código_turma)
@@ -35,7 +35,7 @@ Alocador -> t : seleciona turma (código_turma, \ncódigo_disciplina)
     return t, h[]
         
         return t, h[]
-    c -> p : getSalasCompatíveis(t.quantidadedeAlunos)
+    c -> gs : getSalasCompatíveis(t.quantidadedeAlunos, t.equipamento, t.acessibilidade)
     return s[]
     loop para cada sala
         c -> s : getConflito(h)
