@@ -61,7 +61,7 @@ Horario "1*" --  "1" Atividade
 Alocacao "*" -- "1" Sala: reserva >
 Alocacao "0...1" -- "1" Horario
 
-ComputadorSala "*" -- "1" Sala
-RequerComputador "*" -- "1" "Turma"
-RequerComputador "*" -- "1" "Atividade"
+ComputadorSala "0..1" -- "1" Sala
+RequerComputador "0..1" -- "1" "Turma"
+RequerComputador "0..1" -- "1" "Atividade"
 @enduml
