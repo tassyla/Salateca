@@ -1,48 +1,88 @@
-// import java.util.Collection;
+package br.usp.pcs.labsoft.salateca.entity;
 
-// public class Sala {
-//   private String codigo;
-//   private int capacidade;
-//   private Collection<Alocacao> alocacoes;
-  
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-//   public Sala(String codigo, int capacidade) {
-//     this.codigo = codigo;
-//     this.capacidade = capacidade;
-//   }
+@Entity
+public class Sala {
+    @Id
+    private String codigo;
+    private int capacidade;
+    private Boolean acessibilidade;
 
-//   public void alocarSalaAtividade(String data, String horarioInicio, String horarioFim) {
-//     Alocacao alocacao = new Alocacao(data, horarioInicio, horarioFim);
-//     this.alocacoes.add(alocacao);
-//   }
+    // Cada sala pode ou não ter uma cofiguração de computador
+    // Quando uma sala for excluída, o objeto de configuração 
+    // de computador (ComputadorSala) também será excluído
+    @OneToOne(cascade = CascadeType.ALL)
+    private ComputadorSala computadorSala;
 
-//   public Boolean getConflitoAtividade(String data, String horarioInicio, String horarioFim){
-//     // TODO
-//     return true; 
-//   }
+    // Cada sala pode ter nenhuma ou várias alocações
+    // Quando uma sala for excluída, as suas alocações também serão excluídas
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL)
+    private List<Alocacao> alocacoes = new ArrayList<>();
 
-//   public String getCodigo() {
-//     return codigo;
-//   }
+    // Construtor vazio para o JPA utilziar
+    // quand instanciar objetos recuperados do banco de dados
+    public Sala() {
+    }
 
-//   public void setCodigo(String codigo) {
-//     this.codigo = codigo;
-//   }
+    // Construtor para criar novas instâncias manualmente
+    public Sala(String codigo, int capacidade, Boolean acessibilidade) {
+        this.codigo = codigo;
+        this.capacidade = capacidade;
+        this.acessibilidade = acessibilidade;
+    }
 
-//   public int getCapacidade() {
-//     return capacidade;
-//   }
+    // Métodos para alocar
+    public void alocarSalaAtividade(Horario horario, Atividade atividade) {
+        Alocacao alocacao = new Alocacao(this, horario, atividade);
+        this.alocacoes.add(alocacao);
+    }
 
-//   public void setCapacidade(int capacidade) {
-//     this.capacidade = capacidade;
-//   }
+    public void alocarSalaTurma(Horario horario, Turma turma) {
+        Alocacao alocacao = new Alocacao(this, horario, turma);
+        this.alocacoes.add(alocacao);
+    }
 
-//   public Collection<Alocacao> getAlocacoes() {
-//     return alocacoes;
-//   }
+    // Getters e setters
+    public String getCodigo() {
+        return codigo;
+    }
 
-//   public void setAlocacoes(Collection<Alocacao> alocacoes) {
-//     this.alocacoes = alocacoes;
-//   }
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
-// }
+    public int getCapacidade() {
+        return capacidade;
+    }
+
+    public void setCapacidade(int capacidade) {
+        this.capacidade = capacidade;
+    }
+
+    public Boolean getAcessibilidade() {
+        return acessibilidade;
+    }
+
+    public void setAcessibilidade(Boolean acessibilidade) {
+        this.acessibilidade = acessibilidade;
+    }
+
+    public ComputadorSala getComputadorSala() {
+        return computadorSala;
+    }
+
+    public void setComputadorSala(ComputadorSala computadorSala) {
+        this.computadorSala = computadorSala;
+    }
+
+    public List<Alocacao> getAlocacoes() {
+        return alocacoes;
+    }
+
+    public void setAlocacoes(List<Alocacao> alocacoes) {
+        this.alocacoes = alocacoes;
+    }
+}

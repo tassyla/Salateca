@@ -6,5 +6,5 @@ import br.usp.pcs.labsoft.salateca.entity.Disciplina;
 
 public interface GerenciadorDeDisciplinas extends CrudRepository<Disciplina, Integer>{
     public Optional<Disciplina> findByCodigo(String codigo);
-    public List<Disciplina> findByNome(String nome);
+    List<Disciplina> findAll();
 }

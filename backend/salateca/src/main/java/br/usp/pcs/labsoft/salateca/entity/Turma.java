@@ -1,35 +1,67 @@
 package br.usp.pcs.labsoft.salateca.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.*;
 
 @Entity
 public class Turma {
+
     @Id
     @GeneratedValue
-    private long id;
-    private String nome;
+    private int id;
+
     private String codigo;
+    private String nome;
+
+    // Uma turma pode ou não requerer computadores
+    // Se uma turma for excluída, a requisição de computadores
+    // associada a ela também é excluída
+    @OneToOne(mappedBy = "turma", cascade = CascadeType.ALL)
+    private RequerComputador requerComputador;
+
+
+    // Uma turma está associada a uma disciplina
     @ManyToOne
     private Disciplina disciplina;
 
-    public Turma(){
-        
+
+    public Turma() {}
+
+    public Turma(String codigo, String nome, Disciplina disciplina) {
+        this.codigo = codigo;
+        this.nome = nome;
+        this.disciplina = disciplina;
     }
 
-    public Turma(String nome, String codigo) {
-        this.nome = nome;
+    // ----------------- Getters e setters -----------------------
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
-    public String getCodigo () {
-        return this.codigo;
+    public String getNome() {
+        return nome;
     }
 
-    public String getNome () {
-        return this.nome;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public RequerComputador getRequerComputador() {
+        return requerComputador;
+    }
+
+    public void setRequerComputador(RequerComputador requerComputador) {
+        this.requerComputador = requerComputador;
     }
 }

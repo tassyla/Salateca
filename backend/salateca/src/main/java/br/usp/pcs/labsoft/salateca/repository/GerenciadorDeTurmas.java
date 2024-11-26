@@ -6,5 +6,5 @@ import br.usp.pcs.labsoft.salateca.entity.Turma;
 
 public interface GerenciadorDeTurmas extends CrudRepository<Turma, Integer>{
     public Optional<Turma> findByCodigo(String codigo);
-    public List<Turma> findByNome(String nome);
+    List<Turma> findAll();
 }

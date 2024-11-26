@@ -1,38 +1,67 @@
 package br.usp.pcs.labsoft.salateca.entity;
 
-public class Alocacao{
-  private String data;
-  private String horarioInicio;
-  private String horarioFim;
+import jakarta.persistence.*;
 
-  public Alocacao(String data, String horarioInicio, String horarioFim) {
-    this.data = data;
-    this.horarioInicio = horarioInicio;
-    this.horarioFim = horarioFim;
-  }
+@Entity
+public class Alocacao {
+    @Id
+    @GeneratedValue
+    private int id;
 
-  public String getData() {
-    return data;
-  }
+    // Cada alocação é criada por e para uma sala
+    @ManyToOne
+    private Sala sala;
 
-  public void setData(String data) {
-    this.data = data;
-  }
+    // Cada alocação é feita em um horário
+    // Quando uma alocação é excluída, o objeto
+    // Horario não é excluído
+    @OneToOne
+    private Horario horario;
 
-  public String getHorarioInicio() {
-    return horarioInicio;
-  }
+    // A alocação pode ser feita para uma atividade
+    @ManyToOne
+    private Atividade atividade;
 
-  public void setHorarioInicio(String horarioInicio) {
-    this.horarioInicio = horarioInicio;
-  }
+    // Ou para uma turma
+    @ManyToOne
+    private Turma turma;
 
-  public String getHorarioFim() {
-    return horarioFim;
-  }
+    // Construtores
+    public Alocacao() {
+    }
 
-  public void setHorarioFim(String horarioFim) {
-    this.horarioFim = horarioFim;
-  }
+    // Alocação para atividade
+    public Alocacao(Sala sala, Horario horario, Atividade atividade) {
+        this.sala = sala;
+        this.horario = horario;
+        this.atividade = atividade;
+    }
 
+    // Alocação para turma
+    public Alocacao(Sala sala, Horario horario, Turma turma) {
+        this.sala = sala;
+        this.horario = horario;
+        this.turma = turma;
+    }
+
+    // ----------------- Getters e setters -----------------------
+    public int getId() {
+        return id;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public Horario getHorario() {
+        return horario;
+    }
+
+    public Atividade getAtividade() {
+        return atividade;
+    }
+
+    public Turma getTurma() {
+        return turma;
+    }
 }
