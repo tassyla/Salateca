@@ -33,7 +33,7 @@ public class Turma {
 
         // Cria um objeto RequerComputador se os parâmetros necessários forem passados
         if (quantidadeComputadores != null && sistemaOperacional != null) {
-            this.requerComputador = new RequerComputador(quantidadeComputadores, sistemaOperacional, this);
+            this.requerComputador = new RequerComputador(this,quantidadeComputadores, sistemaOperacional);
         }
     }
 
