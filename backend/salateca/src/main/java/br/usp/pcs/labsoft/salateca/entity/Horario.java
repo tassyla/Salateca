@@ -18,28 +18,33 @@ public class Horario {
     @OneToOne(mappedBy = "horario")
     private Alocacao alocacao;
 
-    // Cada horário está associado a uma turma
+    // Cada horário está associado a uma turma ou atividade obrigatoriamente
     @ManyToOne
     private Turma turma;
 
-    // ou a uma atividade
     @ManyToOne
     private Atividade atividade;
 
-
-    public Horario() {
-    }
-
-    public Horario(String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim, Turma turma, Atividade atividade) {
+    // Construtor para associar com uma Atividade
+    // Uma atividade só tem um Horário
+    public Horario(String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim, Atividade atividade) {
         this.diaDaSemana = diaDaSemana;
         this.horarioInicio = horarioInicio;
         this.horarioFim = horarioFim;
-        this.turma = turma;        
-        this.atividade = atividade; 
+        this.atividade = atividade;
+    }
+
+    // Construtor para associar com uma Turma
+    public Horario(String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim, Turma turma) {
+        this.diaDaSemana = diaDaSemana;
+        this.horarioInicio = horarioInicio;
+        this.horarioFim = horarioFim;
+        this.turma = turma;
     }
     
 
-    // ----------------- Getters e setters -----------------------
+    // Getters e setters
+
     public int getId() {
         return id;
     }
