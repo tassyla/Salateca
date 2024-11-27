@@ -12,20 +12,30 @@ public class RequerComputador {
     private int quantidadeComputadores;
     private String sistemaOperacional;
 
-    // Um Turma/Atividade pode ou não requerer computadores
-    @OneToOne
+    // Um RequerComputador deve ser associado obrigatoriamente a uma Turma ou a uma Atividade
+    @ManyToOne
     private Turma turma;
 
-    @OneToOne
+    @ManyToOne
     private Atividade atividade;
 
     public RequerComputador() {}
 
-    // Construtor com parâmetros e obrigando a associação com a turma
-    public RequerComputador(int quantidadeComputadores, String sistemaOperacional, Turma turma) {
+
+    // Construtores para associar a turma ou atividade
+
+
+    public RequerComputador(Turma turma, Integer quantidadeComputadores, String sistemaOperacional) {
+        this.turma = turma;
         this.quantidadeComputadores = quantidadeComputadores;
         this.sistemaOperacional = sistemaOperacional;
-        this.turma = turma;  // A turma é obrigatória
+    }
+
+
+    public RequerComputador(Atividade atividade, Integer quantidadeComputadores, String sistemaOperacional) {
+        this.atividade = atividade;
+        this.quantidadeComputadores = quantidadeComputadores;
+        this.sistemaOperacional = sistemaOperacional;
     }
 
     // ----------------- Getters e setters -----------------------
