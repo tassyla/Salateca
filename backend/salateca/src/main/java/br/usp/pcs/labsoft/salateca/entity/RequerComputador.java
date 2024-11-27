@@ -19,12 +19,13 @@ public class RequerComputador {
     @OneToOne
     private Atividade atividade;
 
-    // Construtores
     public RequerComputador() {}
 
-    public RequerComputador(int quantidadeComputadores, String sistemaOperacional) {
+    // Construtor com parâmetros e obrigando a associação com a turma
+    public RequerComputador(int quantidadeComputadores, String sistemaOperacional, Turma turma) {
         this.quantidadeComputadores = quantidadeComputadores;
         this.sistemaOperacional = sistemaOperacional;
+        this.turma = turma;  // A turma é obrigatória
     }
 
     // ----------------- Getters e setters -----------------------
