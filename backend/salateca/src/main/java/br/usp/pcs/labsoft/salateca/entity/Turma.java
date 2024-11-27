@@ -18,7 +18,6 @@ public class Turma {
     @OneToOne(mappedBy = "turma", cascade = CascadeType.ALL)
     private RequerComputador requerComputador;
 
-
     // Uma turma está associada a uma disciplina
     @ManyToOne
     private Disciplina disciplina;
@@ -26,10 +25,16 @@ public class Turma {
 
     public Turma() {}
 
-    public Turma(String codigo, String nome, Disciplina disciplina) {
+
+    public Turma(String codigo, String nome, Disciplina disciplina, Integer quantidadeComputadores, String sistemaOperacional) {
         this.codigo = codigo;
         this.nome = nome;
         this.disciplina = disciplina;
+
+        // Cria um objeto RequerComputador se os parâmetros necessários forem passados
+        if (quantidadeComputadores != null && sistemaOperacional != null) {
+            this.requerComputador = new RequerComputador(quantidadeComputadores, sistemaOperacional, this);
+        }
     }
 
     // ----------------- Getters e setters -----------------------
