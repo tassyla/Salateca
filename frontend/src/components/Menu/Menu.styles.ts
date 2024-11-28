@@ -7,6 +7,7 @@ export const StyledBox = styled(Box)`
   padding: 16px;
   color: white;
   font-size: calc(10px + 2vmin);
+  align-items: center;
 `;
 
 export const StyledLink = styled(Link)`
