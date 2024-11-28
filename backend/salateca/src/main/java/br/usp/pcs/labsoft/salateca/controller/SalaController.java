@@ -41,7 +41,8 @@ public class SalaController {
                           @RequestBody String sistemaOperacional,
                           @RequestBody String tecnicosResponsaveis) { 
         return gerenciadorDeSalas.criarSala(codigo, capacidade, acessibilidade, 
-                                            quantidadeComputadores, sistemaOperacional, tecnicosResponsaveis);
+                                            quantidadeComputadores, sistemaOperacional, 
+                                            tecnicosResponsaveis);
      }
 
     @PutMapping("/{codigo}") // Atualizar uma sala existente
