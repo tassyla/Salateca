@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Collection;
 import java.util.Map;
 import java.time.LocalTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @RestController
@@ -69,8 +69,8 @@ public class TurmaController {
                             @RequestBody String recorrencia, 
                             @RequestBody int quantidadeAlunos, 
                             @RequestBody String professor, 
-                            @RequestBody Date dataInicio, 
-                            @RequestBody Date dataFim, 
+                            @RequestBody LocalDate dataInicio, 
+                            @RequestBody LocalDate dataFim, 
                             @RequestBody Boolean acessibilidade,
                             @RequestBody Integer quantidadeComputadores, 
                             @RequestBody String sistemaOperacional) { 
@@ -92,8 +92,8 @@ public class TurmaController {
     @PutMapping("atualizar/{codigoDisciplina}/{codigo}") // Atualizar uma turma existente
     public Turma atualizarTurma(@PathVariable String codigoDisciplina, 
                                 @PathVariable String codigo,
-                                @RequestBody Date dataInicio, 
-                                @RequestBody Date dataFim,
+                                @RequestBody LocalDate dataInicio, 
+                                @RequestBody LocalDate dataFim,
                                 @RequestBody int quantidadeAlunos, 
                                 @RequestBody Boolean acessibilidade,
                                 @RequestBody String professor, 

@@ -3,7 +3,7 @@ package br.usp.pcs.labsoft.salateca.entity;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.Collection;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -73,8 +73,8 @@ public class Disciplina {
                             String recorrencia, 
                             int quantidadeAlunos, 
                             String professor, 
-                            Date dataInicio, 
-                            Date dataFim, 
+                            LocalDate dataInicio, 
+                            LocalDate dataFim, 
                             Boolean acessibilidade,
                             Integer quantidadeComputadores, 
                             String sistemaOperacional) {
@@ -98,7 +98,7 @@ public class Disciplina {
     }
 
     // Editar atributos editáveis da turma
-    public Turma editarTurma(String codigo, Date dataInicio, Date dataFim,
+    public Turma editarTurma(String codigo, LocalDate dataInicio, LocalDate dataFim,
                              int quantidadeAlunos, Boolean acessibilidade,
                              String professor, String recorrencia,
                              List<String> diasDaSemana, List<LocalTime> horariosInicios,

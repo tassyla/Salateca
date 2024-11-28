@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Turma {
@@ -17,8 +17,8 @@ public class Turma {
     private String codigo;
     private int quantidadeAlunos;
     private String professor;
-    private Date dataInicio;
-    private Date dataFim;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
     private Boolean acessibilidade;
 
     // Uma turma pode ou não requerer computadores
@@ -39,7 +39,7 @@ public class Turma {
                 List<String> diasDaSemana, List<LocalTime> 
                 horariosInicios, List<LocalTime> horariosFins, 
                 String recorrencia, int quantidadeAlunos, String professor, 
-                Date dataInicio, Date dataFim, Boolean acessibilidade) {
+                LocalDate dataInicio, LocalDate dataFim, Boolean acessibilidade) {
         this.codigo = codigo;
         this.disciplina = disciplina;
         this.quantidadeAlunos = quantidadeAlunos;
@@ -69,7 +69,7 @@ public class Turma {
                 List<String> diasDaSemana, List<LocalTime>
                 horariosInicios, List<LocalTime> horariosFins, 
                 String recorrencia, int quantidadeAlunos, String professor, 
-                Date dataInicio, Date dataFim, Boolean acessibilidade,
+                LocalDate dataInicio, LocalDate dataFim, Boolean acessibilidade,
                 Integer quantidadeComputadores, String sistemaOperacional ){
                     
         this.codigo = codigo;
@@ -152,19 +152,19 @@ public class Turma {
         this.professor = professor;
     }
 
-    public Date getDataInicio() {
+    public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
     
-    public Date getDataFim() {
+    public LocalDate getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
     }
 

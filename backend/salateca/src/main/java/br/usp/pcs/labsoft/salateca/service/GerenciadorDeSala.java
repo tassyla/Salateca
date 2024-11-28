@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-import java.time.ZoneId;
-import java.util.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -129,11 +127,11 @@ public class GerenciadorDeSala {
         }
 
         // 
-        if (horario1.getDataInicio().after(horario2.getDataFim())) {
+        if (horario1.getDataInicio().isAfter(horario2.getDataFim())) {
             return false;
         }
 
-        if (horario1.getDataFim().before(horario2.getDataInicio())) {
+        if (horario1.getDataFim().isBefore(horario2.getDataInicio())) {
             return false;
         }
 
@@ -176,12 +174,10 @@ public class GerenciadorDeSala {
         return true;
     }
 
-    private boolean isQuinzenalConflict(Date dataQuinzenal1, Date dataQuinzenal2) {
-        LocalDate inicio1 = dataQuinzenal1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate inicio2 = dataQuinzenal2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    
+    private boolean isQuinzenalConflict(LocalDate dataQuinzenal1, LocalDate dataQuinzenal2) {
+
         // Calcular a diferença de semanas
-        long weeksDifference = ChronoUnit.WEEKS.between(inicio1, inicio2);
+        long weeksDifference = ChronoUnit.WEEKS.between(dataQuinzenal1, dataQuinzenal2);
     
         // Verifica se estão na mesma semana da recorrência quinzenal
         return weeksDifference % 2 == 0 && weeksDifference >= 0;

@@ -2,8 +2,9 @@ package br.usp.pcs.labsoft.salateca.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
+
 
 
 @Entity
@@ -15,7 +16,7 @@ public class Atividade {
 
     private String nome;
     private int quantidadeParticipantes;
-    private Date data;
+    private LocalDate data;
 
     private boolean acessibilidade;
 
@@ -28,7 +29,7 @@ public class Atividade {
     private Horario horario;
 
     // Atividade não exige computador
-    public Atividade(String nome, int quantidadeParticipantes, Date data, boolean acessibilidade,
+    public Atividade(String nome, int quantidadeParticipantes, LocalDate data, boolean acessibilidade,
                     String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim) {
         this.nome = nome;
         this.quantidadeParticipantes = quantidadeParticipantes;
@@ -40,7 +41,7 @@ public class Atividade {
     }
 
     // Atividade exige computador
-    public Atividade(String nome, int quantidadeParticipantes, Date data, boolean acessibilidade,
+    public Atividade(String nome, int quantidadeParticipantes, LocalDate data, boolean acessibilidade,
                     String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim,
                     Integer quantidadeComputadores, String sistemaOperacional) {
         this.nome = nome;
@@ -83,11 +84,11 @@ public class Atividade {
         this.quantidadeParticipantes = quantidadeParticipantes;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
