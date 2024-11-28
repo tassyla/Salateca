@@ -66,10 +66,10 @@ public class Disciplina {
     // Criar turma e associá-la à disciplina
     public Turma criarTurma(String codigo, String nome, boolean requerComputador, List<String> diasDaSemana, 
                             List<LocalTime> horariosInicios, List<LocalTime> horariosFins, 
-                            Integer quantidadeComputadores, String sistemaOperacional) {
+                            Integer quantidadeComputadores, String sistemaOperacional, String recorrencia) {
 
         Turma novaTurma = new Turma(codigo, nome, this, quantidadeComputadores, sistemaOperacional,
-                                    diasDaSemana, horariosInicios, horariosFins);
+                                    diasDaSemana, horariosInicios, horariosFins, recorrencia);
 
         
                                     

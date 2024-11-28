@@ -30,7 +30,7 @@ public class Turma {
     private List<Horario> horarios;
 
     public Turma(String codigo, String nome, Disciplina disciplina, Integer quantidadeComputadores, String sistemaOperacional,
-                List<String> diasDaSemana, List<LocalTime> horariosInicios, List<LocalTime> horariosFins) {
+                List<String> diasDaSemana, List<LocalTime> horariosInicios, List<LocalTime> horariosFins, String recorrencia) {
         this.codigo = codigo;
         this.nome = nome;
         this.disciplina = disciplina;
@@ -44,7 +44,7 @@ public class Turma {
         // Cria os objetos Horario para cada trio (diaDaSemana, horarioInicio, horarioFim)
         this.horarios = new ArrayList<>();
         for (int i = 0; i < diasDaSemana.size(); i++) {
-            Horario horario = new Horario(diasDaSemana.get(i), horariosInicios.get(i), horariosFins.get(i), this);
+            Horario horario = new Horario(diasDaSemana.get(i), horariosInicios.get(i), horariosFins.get(i), recorrencia,  this);
             this.horarios.add(horario);
         }
 

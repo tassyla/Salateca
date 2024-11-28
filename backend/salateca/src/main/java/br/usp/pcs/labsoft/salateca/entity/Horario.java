@@ -13,6 +13,7 @@ public class Horario {
     private String diaDaSemana;
     private LocalTime horarioInicio;
     private LocalTime horarioFim;
+    private String    recorrencia;
 
     // Cada horário pode ter uma ou nenhuma alocação
     @OneToOne(mappedBy = "horario")
@@ -32,14 +33,16 @@ public class Horario {
         this.horarioInicio = horarioInicio;
         this.horarioFim = horarioFim;
         this.atividade = atividade;
+        this.recorrencia = null;
     }
 
     // Construtor para associar com uma Turma
-    public Horario(String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim, Turma turma) {
+    public Horario(String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim, String recorrencia, Turma turma) {
         this.diaDaSemana = diaDaSemana;
         this.horarioInicio = horarioInicio;
         this.horarioFim = horarioFim;
         this.turma = turma;
+        this.recorrencia = recorrencia;
     }
     
 
@@ -99,5 +102,13 @@ public class Horario {
 
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
+    }
+
+    public String getRecorrencia() {
+        return recorrencia;
+    }
+
+    public void setRecorrencia(String recorrencia) {
+        this.recorrencia = recorrencia;
     }
 }
