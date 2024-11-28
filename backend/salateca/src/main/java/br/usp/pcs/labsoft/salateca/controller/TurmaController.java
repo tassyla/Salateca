@@ -36,49 +36,79 @@ public class TurmaController {
         return ResponseEntity.ok(Map.of("mensagem", "Tudo certo com as rotas de turmas"));
     }
 
-
     @GetMapping("/listar/{codigoDisciplina}") // Listar todas as turmas
-    public ResponseEntity<?> listarTurmas(@PathVariable String codigoDisciplina) { 
+    public ResponseEntity<?> listarTurmas(@PathVariable String codigoDisciplina) {
         Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
-        
+
         if (disciplinaOpt.isPresent()) {
+            // Obter as turmas da disciplina
             Collection<Turma> turmas = disciplinaOpt.get().listarTurmas();
-            return ResponseEntity.ok(turmas); // Retorna as turmas com status 200
+
+            // Converter as turmas para um formato JSON amigável
+            List<Map<String, Object>> turmasMap = turmas.stream().map(turma -> {
+                // Transformar lista de horários em uma lista de mapas
+                List<Map<String, String>> horariosMap = turma.getHorarios().stream().map(horario -> Map.of(
+                    "diaDaSemana", horario.getDiaDaSemana(),
+                    "horarioInicio", horario.getHorarioInicio().toString(),
+                    "horarioFim", horario.getHorarioFim().toString(),
+                    "recorrencia", horario.getRecorrencia()
+                )).toList();
+
+                // Criar o mapa da turma incluindo os horários
+                return Map.of(
+                    "codigo", turma.getCodigo(),
+                    "nomeDisciplina", turma.getDisciplina().getNome(),
+                    "quantidadeDeAlunos", turma.getQuantidadeAlunos(),
+                    "professor", turma.getProfessor(),
+                    "acessibilidade", turma.getAcessibilidade(),
+                    "horarios", horariosMap
+                );
+            }).toList();
+
+            return ResponseEntity.ok(turmasMap); // Retorna a lista de turmas formatadas com status 200
         }
-    
+
         // Retorna um JSON com o erro e status 404
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", 
                 "Não foi encontrada uma disciplina com o código fornecido"));
     }
-    
 
     @GetMapping("/buscar/{codigoDisciplina}/{codigo}") // Buscar uma turma específica
-    public Map<String, Object> buscarTurma(@PathVariable String codigoDisciplina,
-                             @PathVariable String codigo) { 
-        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigo);
-        
+    public ResponseEntity<Map<String, Object>> buscarTurma(@PathVariable String codigoDisciplina,
+                                                        @PathVariable String codigo) {
+        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
+
         if (disciplinaOpt.isPresent()) {
             Turma turma = disciplinaOpt.get().getTurmaByCodigo(codigo);
-            
-            Map<String, Object> turmaMap = Map.of(
-                    "codigo", turma.getCodigo(),
-                    "nomeDiscipina", turma.getDisciplina().getNome(),
-                    "quantidadedeAlunos", turma.getQuantidadeAlunos(),
-                    "professor", turma.getProfessor(),
-                    "acesibilidade", turma.getAcessibilidade()
-                    
-                    
 
-            );
+            if (turma != null) {
+                // Transformar lista de horários em uma lista de mapas
+                List<Map<String, String>> horariosMap = turma.getHorarios().stream().map(horario -> Map.of(
+                    "diaDaSemana", horario.getDiaDaSemana(),
+                    "horarioInicio", horario.getHorarioInicio().toString(),
+                    "horarioFim", horario.getHorarioFim().toString(),
+                    "recorrencia", horario.getRecorrencia()
+                )).toList();
 
-            return turmaMap;
+                // Criar o mapa da turma incluindo os horários
+                Map<String, Object> turmaMap = Map.of(
+                        "codigo", turma.getCodigo(),
+                        "nomeDisciplina", turma.getDisciplina().getNome(),
+                        "quantidadeDeAlunos", turma.getQuantidadeAlunos(),
+                        "professor", turma.getProfessor(),
+                        "acessibilidade", turma.getAcessibilidade(),
+                        "horarios", horariosMap // Adicionando a lista de horários
+                );
+
+                return ResponseEntity.ok(turmaMap);
+            }
+            // Caso a turma não seja encontrada
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Turma não encontrada"));
         }
-
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(Map.of("erro", 
-                "Não foi encontrada uma disciplina com o código fornecido")));
-
-        return null;
+        // Caso a disciplina não seja encontrada
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Disciplina não encontrada"));
     }
+
 
     @PostMapping("/criar") // Criar uma nova turma
     public Turma criarTurma(@RequestBody String codigoDisciplina, 
