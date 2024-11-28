@@ -42,6 +42,7 @@ public class GerenciadorDeSala {
         }
         
         Sala novaSala = new Sala(codigo, capacidade, acessibilidade);
+        salaRepository.save(novaSala);
         return novaSala;
 
         
@@ -53,7 +54,7 @@ public class GerenciadorDeSala {
 
     // Buscar sala pelo código
     public Sala buscarSala(String codigo) {
-        return salaRepository.findById(codigo)
+        return salaRepository.findByCodigo(codigo)
                 .orElseThrow(() -> new IllegalArgumentException("Sala não encontrada com código: " + codigo));
     }
 
@@ -211,8 +212,6 @@ public class GerenciadorDeSala {
         List<Sala> salasCompatíveis = getSalasCompativeis(turma.getQuantidadeAlunos(), 
                                                     turma.getAcessibilidade(), 
                                                     turma.getRequerComputador());
-                                                    
-
 
         return detectarConflitos(horario, salasCompatíveis);
     }

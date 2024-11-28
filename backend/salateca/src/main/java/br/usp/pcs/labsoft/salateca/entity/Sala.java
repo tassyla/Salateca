@@ -117,4 +117,11 @@ public class Sala {
         return this.computadorSala.getSistemaOperacional();
     }
 
+    public String getTecnicoResponsavel() {
+        if (this.computadorSala == null) {
+            return null;
+        }
+        return this.computadorSala.getTecnicoResponsavel();
+    }
+
 }

@@ -71,8 +71,6 @@ public class AlocacaoController {
                 
                 return salaMap;
             }).collect(Collectors.toList());
-
-            
     
             // Retorna as informações do horário e as salas com conflito
             return Map.of(
@@ -83,6 +81,4 @@ public class AlocacaoController {
     
         return ResponseEntity.ok(resultado);
     }
-    
-
 }

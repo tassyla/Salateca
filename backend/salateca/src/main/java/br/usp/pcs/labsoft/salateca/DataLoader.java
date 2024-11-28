@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 import br.usp.pcs.labsoft.salateca.entity.Atividade;
 import br.usp.pcs.labsoft.salateca.entity.Disciplina;
+import br.usp.pcs.labsoft.salateca.entity.Sala;
+import br.usp.pcs.labsoft.salateca.entity.Horario;
+
 import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
 import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 
@@ -110,8 +113,6 @@ public class DataLoader {
             Disciplina d1 = new Disciplina("PCS1234", "Laboratório de Gatinhos");
             Disciplina d2 = new Disciplina("PTC5678", "Sistemas de DP");
             Disciplina d3 = new Disciplina("PEA4567", "Margaridas II");
-
-
 
             // Criando Turmas
             d1.criarTurma("2024_1_PCS1234", 
@@ -227,20 +228,34 @@ public class DataLoader {
 
             // Criar salas
             // Salas sem computadores
-            salas.criarSala("D1-01", 200, true, 0, null, null);
-            salas.criarSala("D1-02", 50, true, 0, null, null);
-            salas.criarSala("D1-03", 100, false, 0, null, null);
-
-            // Salas com computadores
-            salas.criarSala("D1-04", 200, false, 20, "Windows", "Michelet");
-            salas.criarSala("GD-01", 50, true, 30, "Linux", "Daniel");
-            salas.criarSala("GD-01", 50, false, 10, "Windows", "Fátima");
-
+            Sala s1 = salas.criarSala("D1-01", 200, true, 0, null, null);
+            Sala s2 = salas.criarSala("D1-02", 50, true, 0, null, null);
+            Sala s3 = salas.criarSala("D1-03", 100, false, 0, null, null);
 
             
+            //Criando Horarios
+        //     Horario h1 = new Horarios("Segunda-feira", 
+        //                               LocalTime.of(14, 20),
+        //                               LocalTime.of(14, 20),
+        //                               )
+        //     Horario h2 = 
+        //     Horario h3 = 
+
+
+        //      this.diaDaSemana = diaDaSemana;
+        // this.horarioInicio = horarioInicio;
+        // this.horarioFim = horarioFim;
+        // this.atividade = atividade;
+        // this.recorrencia = "única";
             
+        //     al1 = s1.alocarSala()
 
 
+
+        //     // Salas com computadores
+        //     Sala s4 = salas.criarSala("D1-04", 200, false, 20, "Windows", "Michelet");
+        //     Sala s5 = salas.criarSala("GD-01", 50, true, 30, "Linux", "Daniel");
+        //     Sala s6 = salas.criarSala("GD-01", 50, false, 10, "Windows", "Fátima");
 
         };
     }

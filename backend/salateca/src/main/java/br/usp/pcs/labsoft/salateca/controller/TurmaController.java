@@ -2,6 +2,7 @@ package br.usp.pcs.labsoft.salateca.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -111,32 +112,38 @@ public class TurmaController {
 
 
     @PostMapping("/criar") // Criar uma nova turma
-    public Turma criarTurma(@RequestBody String codigoDisciplina, 
-                            @RequestBody String codigo,
-                            @RequestBody List<String> diasDaSemana,
-                            @RequestBody List<LocalTime> horariosInicios, 
-                            @RequestBody List<LocalTime> horariosFins, 
-                            @RequestBody String recorrencia, 
-                            @RequestBody int quantidadeAlunos, 
-                            @RequestBody String professor, 
-                            @RequestBody LocalDate dataInicio, 
-                            @RequestBody LocalDate dataFim, 
-                            @RequestBody Boolean acessibilidade,
-                            @RequestBody Integer quantidadeComputadores, 
-                            @RequestBody String sistemaOperacional) { 
-        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigo);
-        
+    public ResponseEntity<?> criarTurma(@RequestParam String codigoDisciplina, 
+                                        @RequestParam String codigo,
+                                        @RequestParam List<String> diasDaSemana,
+                                        @RequestParam List<LocalTime> horariosInicios, 
+                                        @RequestParam List<LocalTime> horariosFins, 
+                                        @RequestParam String recorrencia, 
+                                        @RequestParam int quantidadeAlunos, 
+                                        @RequestParam String professor, 
+                                        @RequestParam LocalDate dataInicio, 
+                                        @RequestParam LocalDate dataFim, 
+                                        @RequestParam Boolean acessibilidade,
+                                        @RequestParam Integer quantidadeComputadores, 
+                                        @RequestParam String sistemaOperacional) {
+        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
+
         if (disciplinaOpt.isPresent()) {
-            return disciplinaOpt.get().criarTurma(codigo, diasDaSemana, horariosInicios, horariosFins, 
-                                                  recorrencia, quantidadeAlunos, professor, dataInicio, 
-                                                  dataFim, acessibilidade, quantidadeComputadores, 
-                                                  sistemaOperacional);
+            Turma novaTurma = disciplinaOpt.get().criarTurma(codigo, diasDaSemana, horariosInicios, horariosFins,
+                    recorrencia, quantidadeAlunos, professor, dataInicio, dataFim, acessibilidade,
+                    quantidadeComputadores, sistemaOperacional);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
+                    "mensagem", "Turma criada com sucesso!",
+                    "turma", Map.of(
+                            "codigo", novaTurma.getCodigo(),
+                            "professor", novaTurma.getProfessor(),
+                            "acessibilidade", novaTurma.getAcessibilidade()
+                    )
+            ));
         }
 
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(Map.of("erro", 
-                "Não foi encontrada uma disciplina com o código fornecido")));
-
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", 
+                "Não foi encontrada uma disciplina com o código fornecido"));
     }
 
     @PutMapping("atualizar/{codigoDisciplina}/{codigo}") // Atualizar uma turma existente
