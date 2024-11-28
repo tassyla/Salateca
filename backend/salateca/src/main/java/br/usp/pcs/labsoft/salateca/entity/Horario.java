@@ -2,6 +2,7 @@ package br.usp.pcs.labsoft.salateca.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 public class Horario {
@@ -110,5 +111,24 @@ public class Horario {
 
     public void setRecorrencia(String recorrencia) {
         this.recorrencia = recorrencia;
+    }
+
+    public Date getDataInicio() {
+        if (this.atividade != null) {
+            return this.atividade.getData();
+        }
+
+        return this.turma.getDataInicio();
+        
+    }
+
+
+    public Date getDataFim() {
+        if (this.atividade != null) {
+            return this.atividade.getData();
+        }
+        
+        return this.turma.getDataFim();
+        
     }
 }

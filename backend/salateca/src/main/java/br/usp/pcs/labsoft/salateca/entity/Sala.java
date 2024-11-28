@@ -53,9 +53,7 @@ public class Sala {
         Alocacao alocacao = new Alocacao(this, horario);
         this.alocacoes.add(alocacao);
         return alocacao;
-        
     }
-
 
     // Getters e setters
     public String getCodigo() {
@@ -97,4 +95,5 @@ public class Sala {
     public void setAlocacoes(List<Alocacao> alocacoes) {
         this.alocacoes = alocacoes;
     }
+
 }
