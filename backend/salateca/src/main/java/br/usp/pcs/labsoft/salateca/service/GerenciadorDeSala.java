@@ -29,11 +29,27 @@ public class GerenciadorDeSala {
     }
 
     // Criar nova sala
-    public Sala criarSala(Sala sala) {
-        // Salva no banco de dados
-        Sala novaSala = salaRepository.save(sala);
+    public Sala criarSala(String codigo, 
+                          int capacidade, 
+                          Boolean acessibilidade, 
+                          int quantidadeComputadores,
+                          String sistemaOperacional, 
+                          String tecnicosResponsaveis) {
+
+        if (quantidadeComputadores != 0 && sistemaOperacional != null && tecnicosResponsaveis != null) {
+            Sala novaSala = new Sala(codigo, capacidade, acessibilidade, quantidadeComputadores, sistemaOperacional, tecnicosResponsaveis);
+            return novaSala;
+        }
+        
+        Sala novaSala = new Sala(codigo, capacidade, acessibilidade);
         return novaSala;
+
+        
+        // Salva no banco de dados
+        // Sala novaSala = salaRepository.save(sala);
+        // return novaSala;
     }
+
 
     // Buscar sala pelo código
     public Sala buscarSala(String codigo) {

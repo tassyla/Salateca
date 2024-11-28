@@ -29,8 +29,13 @@ public class Atividade {
     private Horario horario;
 
     // Atividade não exige computador
-    public Atividade(String nome, int quantidadeParticipantes, LocalDate data, boolean acessibilidade,
-                    String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim) {
+    public Atividade(String nome, 
+                    int quantidadeParticipantes, 
+                    LocalDate data, 
+                    boolean acessibilidade,
+                    String diaDaSemana, 
+                    LocalTime horarioInicio, 
+                    LocalTime horarioFim) {
         this.nome = nome;
         this.quantidadeParticipantes = quantidadeParticipantes;
         this.data = data;
@@ -41,9 +46,15 @@ public class Atividade {
     }
 
     // Atividade exige computador
-    public Atividade(String nome, int quantidadeParticipantes, LocalDate data, boolean acessibilidade,
-                    String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim,
-                    Integer quantidadeComputadores, String sistemaOperacional) {
+    public Atividade(String nome, 
+                    int quantidadeParticipantes, 
+                    LocalDate data, 
+                    boolean acessibilidade,
+                    String diaDaSemana, 
+                    LocalTime horarioInicio, 
+                    LocalTime horarioFim,
+                    Integer quantidadeComputadores, 
+                    String sistemaOperacional) {
         this.nome = nome;
         this.quantidadeParticipantes = quantidadeParticipantes;
         this.data = data;
