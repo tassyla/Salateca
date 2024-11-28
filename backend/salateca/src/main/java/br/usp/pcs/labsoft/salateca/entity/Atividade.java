@@ -28,6 +28,10 @@ public class Atividade {
     @OneToOne(cascade = CascadeType.ALL)
     private Horario horario;
 
+    public Atividade() {
+        // Construtor vazio necessário para o JPA
+    }
+
     // Atividade não exige computador
     public Atividade(String nome, 
                     int quantidadeParticipantes, 

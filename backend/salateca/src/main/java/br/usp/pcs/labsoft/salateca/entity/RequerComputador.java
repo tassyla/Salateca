@@ -1,5 +1,7 @@
 package br.usp.pcs.labsoft.salateca.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +16,7 @@ public class RequerComputador {
 
     // Um RequerComputador deve ser associado obrigatoriamente a uma Turma ou a uma Atividade
     @OneToOne
+    @JsonBackReference
     private Turma turma;
 
     @OneToOne

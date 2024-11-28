@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.time.LocalDate;
 
 @Entity
@@ -32,7 +35,12 @@ public class Turma {
     // Uma turma tem obrigatoriamente um ou mais horários
     // Se a turma for excluída, os horários associados a ela também são excluídos
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Horario> horarios;
+
+    public Turma() {
+        // Construtor vazio necessário para o JPA
+    }
 
     // turma não exige computador
     public Turma(String codigo, Disciplina disciplina,
@@ -168,7 +176,7 @@ public class Turma {
         this.dataFim = dataFim;
     }
 
-    public Boolean getAcessibilidade() {
+    public Boolean isAcessibilidade() {
         return acessibilidade;
     }
 

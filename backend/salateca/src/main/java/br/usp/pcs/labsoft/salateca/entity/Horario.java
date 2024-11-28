@@ -29,6 +29,10 @@ public class Horario {
     @OneToOne
     private Atividade atividade;
 
+    public Horario() {
+        // Construtor vazio necessário para o JPA
+    }
+
     // Construtor para associar com uma Atividade
     // Uma atividade só tem um Horário
     public Horario(String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim, Atividade atividade) {
