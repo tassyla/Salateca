@@ -6,17 +6,17 @@ import jakarta.persistence.*;
 public class RequerComputador {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
 
     private int quantidadeComputadores;
     private String sistemaOperacional;
 
     // Um RequerComputador deve ser associado obrigatoriamente a uma Turma ou a uma Atividade
-    @ManyToOne
+    @OneToOne
     private Turma turma;
 
-    @ManyToOne
+    @OneToOne
     private Atividade atividade;
 
     public RequerComputador() {}
@@ -27,6 +27,7 @@ public class RequerComputador {
 
     public RequerComputador(Turma turma, Integer quantidadeComputadores, String sistemaOperacional) {
         this.turma = turma;
+        this.atividade = null;
         this.quantidadeComputadores = quantidadeComputadores;
         this.sistemaOperacional = sistemaOperacional;
     }
@@ -34,6 +35,7 @@ public class RequerComputador {
 
     public RequerComputador(Atividade atividade, Integer quantidadeComputadores, String sistemaOperacional) {
         this.atividade = atividade;
+        this.turma = null;
         this.quantidadeComputadores = quantidadeComputadores;
         this.sistemaOperacional = sistemaOperacional;
     }

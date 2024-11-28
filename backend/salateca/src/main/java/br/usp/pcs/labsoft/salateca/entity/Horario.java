@@ -23,7 +23,7 @@ public class Horario {
     @ManyToOne
     private Turma turma;
 
-    @ManyToOne
+    @OneToOne
     private Atividade atividade;
 
     // Construtor para associar com uma Atividade
@@ -33,7 +33,7 @@ public class Horario {
         this.horarioInicio = horarioInicio;
         this.horarioFim = horarioFim;
         this.atividade = atividade;
-        this.recorrencia = null;
+        this.recorrencia = "única";
     }
 
     // Construtor para associar com uma Turma

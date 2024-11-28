@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 @Entity
 public class Turma {
@@ -14,7 +15,11 @@ public class Turma {
     private int id;
 
     private String codigo;
-    private String nome;
+    private int quantidadeAlunos;
+    private String professor;
+    private Date dataInicio;
+    private Date dataFim;
+    private Boolean acessibilidade;
 
     // Uma turma pode ou não requerer computadores
     @OneToOne(mappedBy = "turma", cascade = CascadeType.ALL)
@@ -29,14 +34,24 @@ public class Turma {
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
     private List<Horario> horarios;
 
-    public Turma(String codigo, String nome, Disciplina disciplina, Integer quantidadeComputadores, String sistemaOperacional,
-                List<String> diasDaSemana, List<LocalTime> horariosInicios, List<LocalTime> horariosFins, String recorrencia) {
+    // turma não exige computador
+    public Turma(String codigo, Disciplina disciplina,
+                List<String> diasDaSemana, List<LocalTime> 
+                horariosInicios, List<LocalTime> horariosFins, 
+                String recorrencia, int quantidadeAlunos, String professor, 
+                Date dataInicio, Date dataFim, Boolean acessibilidade) {
         this.codigo = codigo;
-        this.nome = nome;
         this.disciplina = disciplina;
+        this.quantidadeAlunos = quantidadeAlunos;
+        this.professor = professor;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.acessibilidade = acessibilidade;
+
 
         // Verifica se há a quantidade correta de elementos 
         // para criar um horário para cada
+
         if (diasDaSemana.size() != horariosInicios.size() || diasDaSemana.size() != horariosFins.size()) {
             throw new IllegalArgumentException("As listas de dias, horários de início e fim devem ter o mesmo tamanho.");
         }
@@ -47,6 +62,32 @@ public class Turma {
             Horario horario = new Horario(diasDaSemana.get(i), horariosInicios.get(i), horariosFins.get(i), recorrencia,  this);
             this.horarios.add(horario);
         }
+    }
+
+     // Turma exige computador
+    public Turma(String codigo, Disciplina disciplina,
+                List<String> diasDaSemana, List<LocalTime>
+                horariosInicios, List<LocalTime> horariosFins, 
+                String recorrencia, int quantidadeAlunos, String professor, 
+                Date dataInicio, Date dataFim, Boolean acessibilidade,
+                Integer quantidadeComputadores, String sistemaOperacional ){
+                    
+        this.codigo = codigo;
+        this.disciplina = disciplina;
+        this.quantidadeAlunos = quantidadeAlunos;
+        this.professor = professor;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.acessibilidade = acessibilidade;
+
+        // Verifica se há a quantidade correta de elementos 
+        // para criar um horário para cada
+        if (diasDaSemana.size() != horariosInicios.size() || diasDaSemana.size() != horariosFins.size()) {
+            throw new IllegalArgumentException("As listas de dias, horários de início e fim devem ter o mesmo tamanho.");
+        }
+
+        // Cria os objetos Horario para cada trio (diaDaSemana, horarioInicio, horarioFim)
+        setHorarios(diasDaSemana, horariosInicios, horariosFins, recorrencia);
 
         // Cria um objeto RequerComputador se os parâmetros necessários forem passados
         if (quantidadeComputadores != null && sistemaOperacional != null) {
@@ -72,14 +113,6 @@ public class Turma {
         this.codigo = codigo;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public RequerComputador getRequerComputador() {
         return requerComputador;
     }
@@ -95,4 +128,62 @@ public class Turma {
     public void setHorarios(List<Horario> horarios) {
         this.horarios = horarios;
     }
+
+    public Disciplina getDisciplina() {
+        return disciplina;
+    }
+    
+    public void setDisciplina(Disciplina disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public int getQuantidadeAlunos() {
+        return quantidadeAlunos;
+    }
+
+    public void setQuantidadeAlunos(int quantidadeAlunos) {
+        this.quantidadeAlunos = quantidadeAlunos;
+    }
+
+    public String getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+    
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public Boolean getAcessibilidade() {
+        return acessibilidade;
+    }
+
+    public void setAcessibilidade(Boolean acessibilidade) {
+        this.acessibilidade = acessibilidade;
+    }
+
+    // ----------------- Métodos auxiliares -----------------------
+    public void setHorarios(List<String> diasDaSemana, List<LocalTime> horariosInicios, List<LocalTime> horariosFins, String recorrencia) {
+        this.horarios = new ArrayList<>();
+        for (int i = 0; i < diasDaSemana.size(); i++) {
+            Horario horario = new Horario(diasDaSemana.get(i), horariosInicios.get(i), horariosFins.get(i), recorrencia,  this);
+            this.horarios.add(horario);
+        }
+    }
+    
 }

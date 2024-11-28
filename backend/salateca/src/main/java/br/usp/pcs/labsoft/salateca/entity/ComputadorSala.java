@@ -3,6 +3,7 @@ package br.usp.pcs.labsoft.salateca.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class ComputadorSala {
@@ -14,14 +15,18 @@ public class ComputadorSala {
     private String sistemaOperacional;
     private String tecnicoResponsavel;
 
+    // Cada ComputadorSala está associado a uma sala
+    @OneToOne(mappedBy = "sala")
+    private Sala sala;
 
     public ComputadorSala() {
     }
 
-    public ComputadorSala(int quantidadeComputadores, String sistemaOperacional, String tecnicoResponsavel) {
+    public ComputadorSala(int quantidadeComputadores, String sistemaOperacional, String tecnicoResponsavel, Sala sala) {
         this.quantidadeComputadores = quantidadeComputadores;
         this.sistemaOperacional = sistemaOperacional;
         this.tecnicoResponsavel = tecnicoResponsavel;
+        this.sala = sala;
     }
 
     // ----------------- Getters e setters -----------------------
@@ -47,5 +52,13 @@ public class ComputadorSala {
 
     public void setTecnicoResponsavel(String tecnicoResponsavel) {
         this.tecnicoResponsavel = tecnicoResponsavel;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
     }
 }

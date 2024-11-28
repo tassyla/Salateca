@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,17 @@ public class Disciplina {
     }
 
     // ----------------- Getters e setters -----------------------
+    
+    public Turma getTurmaByCodigo(String codigo) {
+        for (Turma turma : this.turmas) {
+            if(turma.getCodigo() == codigo) {
+                return turma;
+            }
+        }
+        return null;
+    }
+    
+    
     public int getId() {
         return id;
     }
@@ -62,20 +74,56 @@ public class Disciplina {
     public void setTurmas(Collection<Turma> turmas) {
         this.turmas = turmas;
     }
+    
 
     // Criar turma e associá-la à disciplina
-    public Turma criarTurma(String codigo, String nome, boolean requerComputador, List<String> diasDaSemana, 
-                            List<LocalTime> horariosInicios, List<LocalTime> horariosFins, 
-                            Integer quantidadeComputadores, String sistemaOperacional, String recorrencia) {
+    public Turma criarTurma(String codigo, Disciplina disciplina,
+                List<String> diasDaSemana, List<LocalTime>
+                horariosInicios, List<LocalTime> horariosFins, 
+                String recorrencia, int quantidadeAlunos, String professor, 
+                Date dataInicio, Date dataFim, Boolean acessibilidade,
+                Integer quantidadeComputadores, String sistemaOperacional ){
 
-        Turma novaTurma = new Turma(codigo, nome, this, quantidadeComputadores, sistemaOperacional,
-                                    diasDaSemana, horariosInicios, horariosFins, recorrencia);
-
-        
-                                    
-        this.turmas.add(novaTurma);
-
+        Turma novaTurma = new Turma(codigo, disciplina, diasDaSemana, horariosInicios, horariosFins, recorrencia, quantidadeAlunos, professor, dataInicio, dataFim, acessibilidade, quantidadeComputadores, sistemaOperacional);
+        turmas.add(novaTurma);          
         return novaTurma;
+    }
+
+    // Atributos editáveis de Turma:
+    // - quantidade de alunos
+    // - recorrencia
+    // - professor
+    // - dataInicio
+    // - dataFim
+    // - acessibilidade
+    // - horários
+ 
+    // Atributos NÃO editáveis de Turma:
+    // - código
+    // - disciplina
+    // - requer computador (quantidadeComputadores, sistemaOperacional)
+
+    public Turma editarTurma(String codigo, Date dataInicio, Date dataFim,
+                             int quantidadeAlunos, Boolean acessibilidade,
+                             String professor, String recorrencia,
+                             List<String> diasDaSemana, List<LocalTime> horariosInicios,
+                             List<LocalTime> horariosFins) {
+
+        Turma turma = getTurmaByCodigo(codigo);
+        if (turma != null) {
+            turma.setQuantidadeAlunos(quantidadeAlunos);
+            turma.setProfessor(professor);
+            turma.setDataInicio(dataInicio);
+            turma.setDataFim(dataFim);
+            turma.setAcessibilidade(acessibilidade);
+            turma.setHorarios(diasDaSemana, horariosInicios, horariosFins, recorrencia);
+        }
+        return turma;
+    }
+
+    public void deleteTurmabyCodigo(String codigo) {
+        Turma turma = getTurmaByCodigo(codigo);
+        turmas.remove(turma);
     }
 
 

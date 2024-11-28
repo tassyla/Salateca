@@ -18,30 +18,15 @@ public class Alocacao {
     @OneToOne
     private Horario horario;
 
-    // A alocação pode ser feita para uma atividade
-    @ManyToOne
-    private Atividade atividade;
-
-    // Ou para uma turma
-    @ManyToOne
-    private Turma turma;
 
     // Construtores
     public Alocacao() {
     }
 
     // Alocação para atividade
-    public Alocacao(Sala sala, Horario horario, Atividade atividade) {
+    public Alocacao(Sala sala, Horario horario) {
         this.sala = sala;
         this.horario = horario;
-        this.atividade = atividade;
-    }
-
-    // Alocação para turma
-    public Alocacao(Sala sala, Horario horario, Turma turma) {
-        this.sala = sala;
-        this.horario = horario;
-        this.turma = turma;
     }
 
     // ----------------- Getters e setters -----------------------
@@ -57,11 +42,4 @@ public class Alocacao {
         return horario;
     }
 
-    public Atividade getAtividade() {
-        return atividade;
-    }
-
-    public Turma getTurma() {
-        return turma;
-    }
 }

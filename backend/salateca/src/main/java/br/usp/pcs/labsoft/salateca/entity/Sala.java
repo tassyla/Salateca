@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class Sala {
     @Id
@@ -28,22 +29,33 @@ public class Sala {
     }
 
     // Construtor para criar novas instâncias manualmente
+
+    // Sala sem cpmputador
     public Sala(String codigo, int capacidade, Boolean acessibilidade) {
         this.codigo = codigo;
         this.capacidade = capacidade;
         this.acessibilidade = acessibilidade;
+        
+    }
+
+    // Sala com computador
+    public Sala(String codigo, int capacidade, Boolean acessibilidade, int quantidadeComputadores, String sistemaOperacional, String tecnicoResponsavel) {
+        this.codigo = codigo;
+        this.capacidade = capacidade;
+        this.acessibilidade = acessibilidade;
+
+        this.computadorSala = new ComputadorSala(quantidadeComputadores, sistemaOperacional, tecnicoResponsavel, this);
+        
     }
 
     // Métodos para alocar
-    public void alocarSalaAtividade(Horario horario, Atividade atividade) {
-        Alocacao alocacao = new Alocacao(this, horario, atividade);
+    public Alocacao alocarSala(Horario horario) {
+        Alocacao alocacao = new Alocacao(this, horario);
         this.alocacoes.add(alocacao);
+        return alocacao;
+        
     }
 
-    public void alocarSalaTurma(Horario horario, Turma turma) {
-        Alocacao alocacao = new Alocacao(this, horario, turma);
-        this.alocacoes.add(alocacao);
-    }
 
     // Getters e setters
     public String getCodigo() {

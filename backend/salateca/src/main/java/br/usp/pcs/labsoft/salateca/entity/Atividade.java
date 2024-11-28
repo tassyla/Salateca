@@ -27,10 +27,22 @@ public class Atividade {
     @OneToOne(cascade = CascadeType.ALL)
     private Horario horario;
 
-
+    // Atividade não exige computador
     public Atividade(String nome, int quantidadeParticipantes, Date data, boolean acessibilidade,
-                    Integer quantidadeComputadores, String sistemaOperacional,
                     String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim) {
+        this.nome = nome;
+        this.quantidadeParticipantes = quantidadeParticipantes;
+        this.data = data;
+        this.acessibilidade = acessibilidade;
+
+        Horario horario = new Horario(diaDaSemana, horarioInicio, horarioFim, this); // Atividade não precisa de turma
+        this.horario = horario;
+    }
+
+    // Atividade exige computador
+    public Atividade(String nome, int quantidadeParticipantes, Date data, boolean acessibilidade,
+                    String diaDaSemana, LocalTime horarioInicio, LocalTime horarioFim,
+                    Integer quantidadeComputadores, String sistemaOperacional) {
         this.nome = nome;
         this.quantidadeParticipantes = quantidadeParticipantes;
         this.data = data;
