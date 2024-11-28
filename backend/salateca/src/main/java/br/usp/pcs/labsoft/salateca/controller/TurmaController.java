@@ -53,12 +53,25 @@ public class TurmaController {
     
 
     @GetMapping("/buscar/{codigoDisciplina}/{codigo}") // Buscar uma turma específica
-    public Turma buscarTurma(@PathVariable String codigoDisciplina,
+    public Map<String, Object> buscarTurma(@PathVariable String codigoDisciplina,
                              @PathVariable String codigo) { 
         Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigo);
         
         if (disciplinaOpt.isPresent()) {
-            return disciplinaOpt.get().getTurmaByCodigo(codigo);
+            Turma turma = disciplinaOpt.get().getTurmaByCodigo(codigo);
+            
+            Map<String, Object> turmaMap = Map.of(
+                    "codigo", turma.getCodigo(),
+                    "nomeDiscipina", turma.getDisciplina().getNome(),
+                    "quantidadedeAlunos", turma.getQuantidadeAlunos(),
+                    "professor", turma.getProfessor(),
+                    "acesibilidade", turma.getAcessibilidade()
+                    
+                    
+
+            );
+
+            return turmaMap;
         }
 
         ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(Map.of("erro", 

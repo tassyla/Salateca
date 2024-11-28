@@ -176,7 +176,7 @@ public class Turma {
         this.dataFim = dataFim;
     }
 
-    public Boolean isAcessibilidade() {
+    public Boolean getAcessibilidade() {
         return acessibilidade;
     }
 
