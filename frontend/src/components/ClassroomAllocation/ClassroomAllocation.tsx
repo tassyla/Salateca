@@ -22,7 +22,7 @@ const ClassroomAllocation = () => {
 
     try {
       // Substituindo a URL pela dinâmica com idDisciplina
-      const response = await fetch(`/salateca/api/turmas/${idDisciplina}`);
+      const response = await fetch(`http://localhost:8080/salateca/turmas/listar/${idDisciplina}`);
 
       // Verificando se a resposta foi bem-sucedida
       if (!response.ok) {
@@ -34,7 +34,7 @@ const ClassroomAllocation = () => {
 
       // Se a API retornar as turmas no formato esperado
       if (Array.isArray(data)) {
-        const classNames = data.map((classItem: { nome: string }) => classItem.nome);
+        const classNames = data.map((classItem: { codigo: string }) => classItem.codigo);
         setClasses(classNames); // Atualiza o estado com os nomes das turmas
       } else {
         throw new Error('Formato de dados inválido');
