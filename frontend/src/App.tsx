@@ -71,7 +71,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/home" element={ <ClassroomAllocation/> } />
-              <Route path="/teste" element={ <AllocationInformation/> } />
+      
               <Route path="/salas" element={ <ClassroomList salas={salasExemplo} />} />
               <Route path="/turmas" element={ <ClassesList turmas={turmasExemplo} />} />
               <Route path="/alocacoes" element={ <AllocationList/>} />

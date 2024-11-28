@@ -3,12 +3,13 @@ import { List, ListItem, Divider } from '@chakra-ui/react';
 import { StyledBox, StyledTitle, StyledSubtitle } from './ClassInformationBox.styles';
 
 
+
 const InformacoesTurma = () => {
-  const [infoClass, setInfoClass] = useState({disciplina: 'teste', 
-                                              nome: 'Turma Teste',
-                                              inicio: 'xx/xx/xxx',
-                                              fim: 'xx/xx/xxxx',
-                                              alunosInscritos: '0'});
+  const [infoClass, setInfoClass] = useState({disciplina: 'PCS1234', 
+                                              nome: '2_2024_PCS1234',
+                                              inicio: '12/03/2024',
+                                              fim: '13/07/2024',
+                                              alunosInscritos: '20'});   
 
   const handleSearch = async () => {
     try {
@@ -49,8 +50,6 @@ const InformacoesTurma = () => {
       <List spacing={2}>
         //TO DO
         <ListItem>Segunda-feira: 08:00 - 10:00</ListItem>
-        <ListItem>Quarta-feira: 10:00 - 12:00</ListItem>
-        <ListItem>Sexta-feira: 14:00 - 16:00</ListItem>
       </List>
     </StyledBox>
   );

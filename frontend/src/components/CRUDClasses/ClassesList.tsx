@@ -1,4 +1,4 @@
-// src/components/SalasList.tsx
+// src/components/ClassesList.tsx
 import React, { useState } from 'react';
 import { Box, Button, List, ListItem, Text, useDisclosure } from '@chakra-ui/react';
 import { Turma } from '../../types';
@@ -8,18 +8,18 @@ type TurmaListProps = {
   turmas: Turma[];
 };
 
-const SalasList: React.FC<TurmaListProps> = ({ turmas }) => {
-  const [salaSelecionada, setSalaSelecionada] = useState<Turma | null>(null);
+const ClassesList: React.FC<TurmaListProps> = ({ turmas }) => {
+  const [turmaSelecionada, setTurmaSelecionada] = useState<Turma | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleTurmaClick = (turma: Turma) => {
-    setSalaSelecionada(turma);
+    setTurmaSelecionada(turma);
     onOpen();
   };
 
   return (
-    <Box margin='20px'>
-      <Text fontSize="2xl" mb={4} fontWeight='bold'>
+    <Box margin="20px">
+      <Text fontSize="2xl" mb={4} fontWeight="bold">
         Turmas
       </Text>
       <List spacing={3}>
@@ -32,16 +32,16 @@ const SalasList: React.FC<TurmaListProps> = ({ turmas }) => {
         ))}
       </List>
 
-      {salaSelecionada && (
+      {turmaSelecionada && (
         <TurmaDetalhes
-          sala={salaSelecionada}
+          turma={turmaSelecionada}
           isOpen={isOpen}
           onClose={onClose}
-          setSalaSelecionada={setSalaSelecionada}
+          setTurmaSelecionada={setTurmaSelecionada}
         />
       )}
     </Box>
   );
 };
 
-export default SalasList;
+export default ClassesList;

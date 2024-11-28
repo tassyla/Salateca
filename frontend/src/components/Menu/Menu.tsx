@@ -7,7 +7,6 @@ const Menu = () => (
     <Flex justify="flex-end">
       <StyledLink href="/home">Criar Alocação</StyledLink>
       <StyledLink href="/alocacoes">Alocações</StyledLink>
-      <StyledLink href="/teste">Teste</StyledLink>
       <StyledLink href="/turmas">Turmas</StyledLink>
       <StyledLink href="/salas">Salas</StyledLink>
 
