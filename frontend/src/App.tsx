@@ -4,12 +4,12 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Menu from './components/Menu';
 import ClassroomAllocation from './components/ClassroomAllocation';
-import ClassInformationBox from './components/ClassInformationBox';
-import ClassSelection from './components/ClassSelection';
-import ClassroomList from './components/CRUDClassrooms/components/ClassroomList';
-import { SalaDeAula } from './types';
+import AllocationInformation from './components/AllocationInformation/AllocationInformation';
+import ClassroomList from './components/CRUDClassroom/ClassroomList';
+import ClassesList from './components/CRUDClasses/ClassesList';
+import { SalaDeAula, Turma } from './types';
 
-const salasExemplo: SalaDeAula[] = [
+const turmasExemplo: Turma[] = [
   {
     id: 1,
     codigo: 'TURMA001',
@@ -38,6 +38,23 @@ const salasExemplo: SalaDeAula[] = [
   },
 ];
 
+const salasExemplo: SalaDeAula[] = [
+  {
+    codigo: 'GD-06',
+    capacidade: 50,
+    numeroComputadores: 50,
+    sistemaOperacional: 'Linux', 
+    tecnico: 'Michelet'
+  },
+  {
+    codigo: 'D1-01',
+    capacidade: 200,
+    numeroComputadores: 0,
+    sistemaOperacional: '', 
+    tecnico: ''
+  },
+];
+
 
 function App() {
 
@@ -50,15 +67,12 @@ function App() {
           <div>
             <Routes>
               <Route path="/home" element={ <ClassroomAllocation/> } />
-              <Route path="/home" element={ <ClassroomAllocation/> } />
+              <Route path="/teste" element={ <AllocationInformation/> } />
               <Route path="/salas" element={ <ClassroomList salas={salasExemplo} />} />
+              <Route path="/turmas" element={ <ClassesList turmas={turmasExemplo} />} />
             </Routes>
           </div>
         </Router>
-
-        
-        <ClassInformationBox />
-        <ClassSelection />
 
       </header>
     </div>

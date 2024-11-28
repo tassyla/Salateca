@@ -1,7 +1,7 @@
 // src/components/SalasList.tsx
 import React, { useState } from 'react';
 import { Box, Button, List, ListItem, Text, useDisclosure } from '@chakra-ui/react';
-import { SalaDeAula } from '../../../types';
+import { SalaDeAula } from '../../types';
 import SalaDetalhes from './ClassroomDetails';
 
 type SalasListProps = {
@@ -24,9 +24,9 @@ const SalasList: React.FC<SalasListProps> = ({ salas }) => {
       </Text>
       <List spacing={3}>
         {salas.map((sala) => (
-          <ListItem key={sala.id}>
+          <ListItem key={sala.codigo}>
             <Button variant="link" onClick={() => handleSalaClick(sala)}>
-              {sala.codigo} - {sala.disciplina}
+              {sala.codigo} 
             </Button>
           </ListItem>
         ))}

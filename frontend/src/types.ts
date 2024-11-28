@@ -1,5 +1,15 @@
+import internal from "stream";
+
 // src/types.ts
 export type SalaDeAula = {
+    codigo: string; 
+    capacidade: number; 
+    numeroComputadores: number; 
+    sistemaOperacional: string; 
+    tecnico: string; 
+  };
+
+  export type Turma = {
     id: number;
     codigo: string;
     disciplina: string;
