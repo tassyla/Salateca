@@ -31,19 +31,26 @@ public class TurmaController {
         this.gerenciadorDeDisciplinas = gerenciadorDeDisciplinas;
     }
 
+    @GetMapping
+    public ResponseEntity<Map<String, String>> verificarRotas() {
+        return ResponseEntity.ok(Map.of("mensagem", "Tudo certo com as rotas de turmas"));
+    }
+
+
     @GetMapping("/listar/{codigoDisciplina}") // Listar todas as turmas
-    public Collection<Turma> listarTurmas(@PathVariable String codigoDisciplina) { 
+    public ResponseEntity<?> listarTurmas(@PathVariable String codigoDisciplina) { 
         Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
         
         if (disciplinaOpt.isPresent()) {
-            return disciplinaOpt.get().listarTurmas();
+            Collection<Turma> turmas = disciplinaOpt.get().listarTurmas();
+            return ResponseEntity.ok(turmas); // Retorna as turmas com status 200
         }
-        
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(Map.of("erro", 
-                "Não foi encontrada uma disciplina com o código fornecido")));
-        
-        return null;
+    
+        // Retorna um JSON com o erro e status 404
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", 
+                "Não foi encontrada uma disciplina com o código fornecido"));
     }
+    
 
     @GetMapping("/buscar/{codigoDisciplina}/{codigo}") // Buscar uma turma específica
     public Turma buscarTurma(@PathVariable String codigoDisciplina,

@@ -111,6 +111,8 @@ public class DataLoader {
             Disciplina d2 = new Disciplina("PTC5678", "Sistemas de DP");
             Disciplina d3 = new Disciplina("PEA4567", "Margaridas II");
 
+
+
             // Criando Turmas
             d1.criarTurma("2024_1_PCS1234", 
                           dias_d1_t1, 
@@ -196,6 +198,10 @@ public class DataLoader {
                           null,
                           null
                           );
+
+            disciplinas.save(d1);
+            disciplinas.save(d2);
+            disciplinas.save(d3);
             // Criar Atividades
             // Atividade com Computador
             Atividade a1 = new Atividade("Workshop de Python da Skyrats", 
