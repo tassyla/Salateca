@@ -7,6 +7,8 @@ import ClassroomAllocation from './components/ClassroomAllocation';
 import AllocationInformation from './components/AllocationInformation/AllocationInformation';
 import ClassroomList from './components/CRUDClassroom/ClassroomList';
 import ClassesList from './components/CRUDClasses/ClassesList';
+import AllocationList from './components/AllocationList';
+import EditRoomForm from './components/CRUDClasses/FormsEditClasses'
 import { SalaDeAula, Turma } from './types';
 
 const turmasExemplo: Turma[] = [
@@ -44,14 +46,16 @@ const salasExemplo: SalaDeAula[] = [
     capacidade: 50,
     numeroComputadores: 50,
     sistemaOperacional: 'Linux', 
-    tecnico: 'Michelet'
+    tecnico: 'Michelet',
+    acessibilidade: true
   },
   {
     codigo: 'D1-01',
     capacidade: 200,
     numeroComputadores: 0,
     sistemaOperacional: '', 
-    tecnico: ''
+    tecnico: '',
+    acessibilidade: false
   },
 ];
 
@@ -70,6 +74,8 @@ function App() {
               <Route path="/teste" element={ <AllocationInformation/> } />
               <Route path="/salas" element={ <ClassroomList salas={salasExemplo} />} />
               <Route path="/turmas" element={ <ClassesList turmas={turmasExemplo} />} />
+              <Route path="/alocacoes" element={ <AllocationList/>} />
+
             </Routes>
           </div>
         </Router>

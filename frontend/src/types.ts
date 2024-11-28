@@ -6,6 +6,7 @@ export type SalaDeAula = {
     capacidade: number; 
     numeroComputadores: number; 
     sistemaOperacional: string; 
+    acessibilidade: boolean;
     tecnico: string; 
   };
 
