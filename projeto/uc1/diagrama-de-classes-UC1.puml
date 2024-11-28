@@ -10,7 +10,6 @@ class Sala {
 class Turma {
     codigo: String
     quantidadeAlunos: int 
-    recorrencia: String
     professor: String
     dataInicio: Date
     dataFim: Date
@@ -23,6 +22,7 @@ class Horario {
     diaDaSemana: String
     horarioInicio: Time
     horarioFim: Time
+    recorrencia: String
 }
 
 class Disciplina {
