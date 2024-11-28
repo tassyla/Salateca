@@ -54,8 +54,7 @@ public class GerenciadorDeSala {
 
     // Buscar sala pelo código
     public Sala buscarSala(String codigo) {
-        return salaRepository.findByCodigo(codigo)
-                .orElseThrow(() -> new IllegalArgumentException("Sala não encontrada com código: " + codigo));
+        return salaRepository.findByCodigo(codigo);    
     }
 
 

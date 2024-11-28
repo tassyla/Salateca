@@ -1,63 +1,58 @@
 package br.usp.pcs.labsoft.salateca;
 
-import br.usp.pcs.labsoft.salateca.entity.Disciplina;
-import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
+import br.usp.pcs.labsoft.salateca.entity.Sala;
+import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
+import br.usp.pcs.labsoft.salateca.repository.SalaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class SalatecaApplicationTests {
 
-    @Autowired
-    private GerenciadorDeDisciplinas gerenciadorDeDisciplinas;
+    @Mock
+    private SalaRepository salaRepository;
+
+    @InjectMocks
+    private GerenciadorDeSala gerenciadorDeSala;
 
     @BeforeEach
     void setUp() {
-        // Garantir que o banco de dados comece limpo antes de cada teste
-        gerenciadorDeDisciplinas.deleteAll();
+        // Criar salas de teste
+        Sala s1 = new Sala("D1-01", 200, true, 0, null, null);
+        Sala s2 = new Sala("D1-02", 50, true, 0, null, null);
+        Sala s3 = new Sala("D1-03", 100, false, 0, null, null);
+
+
+        when(salaRepository.findByCodigo("D1-01")).thenReturn(s1);
+        when(salaRepository.findByCodigo("D1-02")).thenReturn(s2);
+        when(salaRepository.findByCodigo("D1-03")).thenReturn(s3);
     }
 
     @Test
-    void testarOperacoesComDisciplinas() {
-        // 1. Criar 3 disciplinas
-        Disciplina disciplina1 = new Disciplina("Cálculo 1", "MAT001");
-        Disciplina disciplina2 = new Disciplina("Algoritmos e Estruturas de Dados", "INF002");
-        Disciplina disciplina3 = new Disciplina("Sistemas Operacionais", "INF003");
+    void testarBuscarSala() {
+        // Teste para buscar as salas pelo código
+        Sala sala1 = gerenciadorDeSala.buscarSala("D1-01");
+        Sala sala2 = gerenciadorDeSala.buscarSala("D1-02");
+        Sala sala3 = gerenciadorDeSala.buscarSala("D1-03");
 
-        gerenciadorDeDisciplinas.save(disciplina1);
-        gerenciadorDeDisciplinas.save(disciplina2);
-        gerenciadorDeDisciplinas.save(disciplina3);
+        // Verificar se as salas retornadas são as esperadas
+        assertNotNull(sala1);
+        assertEquals("D1-01", sala1.getCodigo());
+        assertEquals(200, sala1.getCapacidade());
+        
+        assertNotNull(sala2);
+        assertEquals("D1-02", sala2.getCodigo());
+        assertEquals(50, sala2.getCapacidade());
 
-        // // 2. Listar todas as disciplinas
-        // List<Disciplina> disciplinas = gerenciadorDeDisciplinas.findAll();
-        // System.out.println("Disciplinas após criação:");
-        // disciplinas.forEach(disciplina -> System.out.println(disciplina));
-
-        // // 3. Retornar uma disciplina pelo código
-        // Optional<Disciplina> disciplinaBuscada = gerenciadorDeDisciplinas.findByCodigo("INF002");
-        // if (disciplinaBuscada.isPresent()) {
-        //     System.out.println("Disciplina encontrada pelo código INF002: " + disciplinaBuscada.get());
-        // } else {
-        //     System.out.println("Disciplina com código INF002 não encontrada.");
-        // }
-
-        // // 4. Deletar todas as disciplinas
-        // gerenciadorDeDisciplinas.deleteAll();
-
-        // // 5. Listar todas as disciplinas novamente
-        // List<Disciplina> disciplinasDeletadas = gerenciadorDeDisciplinas.findAll();
-        // System.out.println("Disciplinas após deleção:");
-        // if (disciplinasDeletadas.isEmpty()) {
-        //     System.out.println("Nenhuma disciplina encontrada após a deleção.");
-        // } else {
-        //     disciplinasDeletadas.forEach(disciplina -> System.out.println(disciplina));
-        // }
+        assertNotNull(sala3);
+        assertEquals("D1-03", sala3.getCodigo());
+        assertEquals(100, sala3.getCapacidade());
     }
 }

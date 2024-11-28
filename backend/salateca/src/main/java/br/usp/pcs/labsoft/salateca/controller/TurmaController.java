@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import br.usp.pcs.labsoft.salateca.entity.Turma;
 import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
+import br.usp.pcs.labsoft.salateca.dto.CriarTurmaDTO;
+import br.usp.pcs.labsoft.salateca.dto.EditarTurmaDTO;
 import br.usp.pcs.labsoft.salateca.entity.Disciplina;
 import java.util.Optional;
 import java.util.List;
@@ -112,26 +114,26 @@ public class TurmaController {
 
 
     @PostMapping("/criar") // Criar uma nova turma
-    public ResponseEntity<?> criarTurma(@RequestParam String codigoDisciplina, 
-                                        @RequestParam String codigo,
-                                        @RequestParam List<String> diasDaSemana,
-                                        @RequestParam List<LocalTime> horariosInicios, 
-                                        @RequestParam List<LocalTime> horariosFins, 
-                                        @RequestParam String recorrencia, 
-                                        @RequestParam int quantidadeAlunos, 
-                                        @RequestParam String professor, 
-                                        @RequestParam LocalDate dataInicio, 
-                                        @RequestParam LocalDate dataFim, 
-                                        @RequestParam Boolean acessibilidade,
-                                        @RequestParam Integer quantidadeComputadores, 
-                                        @RequestParam String sistemaOperacional) {
-        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
+    public ResponseEntity<?> criarTurma(@RequestBody CriarTurmaDTO criarTurmaDTO) {
+        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(criarTurmaDTO.getCodigoDisciplina());
 
         if (disciplinaOpt.isPresent()) {
-            Turma novaTurma = disciplinaOpt.get().criarTurma(codigo, diasDaSemana, horariosInicios, horariosFins,
-                    recorrencia, quantidadeAlunos, professor, dataInicio, dataFim, acessibilidade,
-                    quantidadeComputadores, sistemaOperacional);
-
+            Disciplina disciplina = disciplinaOpt.get();
+            Turma novaTurma = disciplina.criarTurma(
+                criarTurmaDTO.getCodigo(),
+                criarTurmaDTO.getDiasDaSemana(),
+                criarTurmaDTO.getHorariosInicios(),
+                criarTurmaDTO.getHorariosFins(),
+                criarTurmaDTO.getRecorrencia(),
+                criarTurmaDTO.getQuantidadeAlunos(),
+                criarTurmaDTO.getProfessor(),
+                criarTurmaDTO.getDataInicio(),
+                criarTurmaDTO.getDataFim(),
+                criarTurmaDTO.getAcessibilidade(),
+                criarTurmaDTO.getQuantidadeComputadores(),
+                criarTurmaDTO.getSistemaOperacional()
+            );
+            gerenciadorDeDisciplinas.save(disciplina);
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                     "mensagem", "Turma criada com sucesso!",
                     "turma", Map.of(
@@ -146,31 +148,34 @@ public class TurmaController {
                 "Não foi encontrada uma disciplina com o código fornecido"));
     }
 
-    @PutMapping("atualizar/{codigoDisciplina}/{codigo}") // Atualizar uma turma existente
-    public Turma atualizarTurma(@PathVariable String codigoDisciplina, 
-                                @PathVariable String codigo,
-                                @RequestBody LocalDate dataInicio, 
-                                @RequestBody LocalDate dataFim,
-                                @RequestBody int quantidadeAlunos, 
-                                @RequestBody Boolean acessibilidade,
-                                @RequestBody String professor, 
-                                @RequestBody String recorrencia,
-                                @RequestBody List<String> diasDaSemana, 
-                                @RequestBody List<LocalTime> horariosInicios,
-                                @RequestBody List<LocalTime> horariosFins
-                                ) { 
-        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigo);
-        
+    @PutMapping("/editar/{codigoDisciplina}/{codigo}")
+    public ResponseEntity<?> editarTurma(
+            @PathVariable String codigoDisciplina,
+            @PathVariable String codigo,
+            @RequestBody EditarTurmaDTO editarTurmaDTO) {
+        Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
+
         if (disciplinaOpt.isPresent()) {
-            return disciplinaOpt.get().editarTurma(codigo, dataInicio, dataFim,
-                                                  quantidadeAlunos, acessibilidade, professor, 
-                                                  recorrencia, diasDaSemana, horariosInicios, horariosFins);
+            Disciplina disciplina = disciplinaOpt.get();
+            Turma turma = disciplina.getTurmaByCodigo(codigo);
+
+            if (turma != null) {
+                turma.setDataInicio(editarTurmaDTO.getDataInicio());
+                turma.setDataFim(editarTurmaDTO.getDataFim());
+                turma.setQuantidadeAlunos(editarTurmaDTO.getQuantidadeAlunos());
+                turma.setAcessibilidade(editarTurmaDTO.getAcessibilidade());
+                turma.setProfessor(editarTurmaDTO.getProfessor());
+
+                // Salvar a turma atualizada e retornar uma resposta apropriada
+                return ResponseEntity.ok(turma);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("erro", "Turma não encontrada para o código fornecido"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("erro", "Disciplina não encontrada para o código fornecido"));
         }
-
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(Map.of("erro", 
-                "Não foi encontrada uma disciplina com o código fornecido")));
-
-        return null;
     }
 
     @DeleteMapping("/excluir/{codigoDisciplina}/{codigo}") // Excluir uma turma

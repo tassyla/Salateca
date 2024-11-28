@@ -7,7 +7,7 @@ import br.usp.pcs.labsoft.salateca.entity.Sala;
 
 public interface SalaRepository extends CrudRepository<Sala, String> {
     // Método adicional para buscar por nome, se relevante
-    Optional<Sala> findByCodigo(String nome);
+    Sala findByCodigo(String nome);
 
     // Método adicional para buscar todas as salas
     List<Sala> findAll();
