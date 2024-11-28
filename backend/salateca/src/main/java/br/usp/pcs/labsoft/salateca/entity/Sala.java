@@ -31,7 +31,9 @@ public class Sala {
     // Construtor para criar novas instâncias manualmente
 
     // Sala sem cpmputador
-    public Sala(String codigo, int capacidade, Boolean acessibilidade) {
+    public Sala(String codigo, 
+    int capacidade,
+     Boolean acessibilidade) {
         this.codigo = codigo;
         this.capacidade = capacidade;
         this.acessibilidade = acessibilidade;
@@ -39,7 +41,12 @@ public class Sala {
     }
 
     // Sala com computador
-    public Sala(String codigo, int capacidade, Boolean acessibilidade, int quantidadeComputadores, String sistemaOperacional, String tecnicoResponsavel) {
+    public Sala(String codigo, 
+    int capacidade, 
+    Boolean acessibilidade, 
+    int quantidadeComputadores, 
+    String sistemaOperacional, 
+    String tecnicoResponsavel) {
         this.codigo = codigo;
         this.capacidade = capacidade;
         this.acessibilidade = acessibilidade;

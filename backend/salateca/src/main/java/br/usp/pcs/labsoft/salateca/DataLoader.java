@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import br.usp.pcs.labsoft.salateca.entity.Atividade;
 import br.usp.pcs.labsoft.salateca.entity.Disciplina;
-import br.usp.pcs.labsoft.salateca.entity.Sala;
 import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
 import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 

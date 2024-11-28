@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 import br.usp.pcs.labsoft.salateca.entity.Sala;
+import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 
 import java.util.List;
 
@@ -34,8 +34,14 @@ public class SalaController {
      }
 
     @PostMapping("/criar") // Criar uma nova sala
-    public Sala criarSala(@RequestBody Sala sala) { 
-        return gerenciadorDeSalas.criarSala(sala);
+    public Sala criarSala(@RequestBody String codigo,
+                          @RequestBody int capacidade,
+                          @RequestBody Boolean acessibilidade,
+                          @RequestBody int quantidadeComputadores,
+                          @RequestBody String sistemaOperacional,
+                          @RequestBody String tecnicosResponsaveis) { 
+        return gerenciadorDeSalas.criarSala(codigo, capacidade, acessibilidade, 
+                                            quantidadeComputadores, sistemaOperacional, tecnicosResponsaveis);
      }
 
     @PutMapping("/{codigo}") // Atualizar uma sala existente
