@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 import br.usp.pcs.labsoft.salateca.entity.Sala;
+
 import java.util.List;
 
 @RestController
@@ -17,7 +19,6 @@ import java.util.List;
 public class SalaController {
 
     private final GerenciadorDeSala gerenciadorDeSalas;
-
     public SalaController(GerenciadorDeSala gerenciadorDeSalas) {
         this.gerenciadorDeSalas = gerenciadorDeSalas;
     }
@@ -46,4 +47,6 @@ public class SalaController {
     public void excluirSala(@PathVariable String codigo) { 
         gerenciadorDeSalas.excluirSala(codigo);
      }
+
+
 }

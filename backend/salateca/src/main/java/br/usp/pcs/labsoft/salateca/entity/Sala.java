@@ -96,4 +96,18 @@ public class Sala {
         this.alocacoes = alocacoes;
     }
 
+    public int getQuantidadeComputadores() {
+        if (this.computadorSala == null) {
+            return 0;
+        }
+        return this.computadorSala.getQuantidadeComputadores();
+    }
+
+    public String getSistemaOperacional() {
+        if (this.computadorSala == null) {
+            return null;
+        }
+        return this.computadorSala.getSistemaOperacional();
+    }
+
 }

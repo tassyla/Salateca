@@ -2,6 +2,7 @@ package br.usp.pcs.labsoft.salateca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import br.usp.pcs.labsoft.salateca.entity.Disciplina;
 import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
 
@@ -24,5 +25,11 @@ public class DisciplinaService {
         gerenciadorDeDisciplinas.save(disciplina2);
         gerenciadorDeDisciplinas.save(disciplina3);
     }
+
+    // Retorna a lista de todas as disciplinas existentes
+    public List<Disciplina> listarDisciplinas() {
+        return gerenciadorDeDisciplinas.findAll();
+    }
+    
 
 }
