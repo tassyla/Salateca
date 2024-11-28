@@ -40,23 +40,23 @@ public class DataLoader {
             dias_d1_t1.add("Terça-feira");
 
             List<String> dias_d1_t2 = new ArrayList<>();
-            dias_d1_t1.add("Quarta-feira");
-            dias_d1_t1.add("Quinta-feira");
+            dias_d1_t2.add("Quarta-feira");
+            dias_d1_t2.add("Quinta-feira");
 
             List<String> dias_d1_t3 = new ArrayList<>();
-            dias_d1_t1.add("Sexta-feira");
-            dias_d1_t1.add("Segunda-feira");
+            dias_d1_t3.add("Sexta-feira");
+            dias_d1_t3.add("Segunda-feira");
 
             List<String> dias_d2_t1 = new ArrayList<>();
-            dias_d1_t1.add("Terça-feira");
+            dias_d2_t1.add("Terça-feira");
 
             List<String> dias_d2_t2 = new ArrayList<>();
-            dias_d1_t1.add("Quarta-feira");
+            dias_d2_t2.add("Quarta-feira");
 
             List<String> dias_d3_t1 = new ArrayList<>();
-            dias_d1_t1.add("Quinta-feira");
-            dias_d1_t1.add("Sexta-feira");
-            dias_d1_t1.add("Segunda-feira");
+            dias_d3_t1.add("Quinta-feira");
+            dias_d3_t1.add("Sexta-feira");
+            dias_d3_t1.add("Segunda-feira");
             
             // Lista de horários de inicio
             List<LocalTime> horarios_inicio_d1_t1 = new ArrayList<>();
@@ -175,7 +175,7 @@ public class DataLoader {
                           "Quinzenal",
                           100,
                           "Antonio Levy",
-                          LocalDate.of(2024, 15, 4),
+                          LocalDate.of(2024, 5, 4),
                           LocalDate.of(2024, 12, 13),
                           true,
                           null,
@@ -184,7 +184,7 @@ public class DataLoader {
 
             // Turma sem computador
             d1.criarTurma("2024_1_PEA5669", 
-                          dias_d1_t1, 
+                          dias_d3_t1, 
                           horarios_inicio_d3_t1,
                           horarios_fim_d3_t1,
                           "Semanal",

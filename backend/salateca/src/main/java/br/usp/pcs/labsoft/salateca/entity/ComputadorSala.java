@@ -16,7 +16,7 @@ public class ComputadorSala {
     private String tecnicoResponsavel;
 
     // Cada ComputadorSala está associado a uma sala
-    @OneToOne(mappedBy = "sala")
+    @OneToOne
     private Sala sala;
 
     public ComputadorSala() {
