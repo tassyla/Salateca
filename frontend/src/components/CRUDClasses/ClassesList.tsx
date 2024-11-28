@@ -18,8 +18,8 @@ const SalasList: React.FC<TurmaListProps> = ({ turmas }) => {
   };
 
   return (
-    <Box>
-      <Text fontSize="2xl" mb={4}>
+    <Box margin='20px'>
+      <Text fontSize="2xl" mb={4} fontWeight='bold'>
         Turmas
       </Text>
       <List spacing={3}>

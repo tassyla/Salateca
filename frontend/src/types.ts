@@ -22,4 +22,15 @@ export type SalaDeAula = {
     acessibilidade: boolean;
     computadores: boolean;
   };
+
+  export type Alocacao = {
+    sala: string;
+    dataInicio: string;
+    dataFim: string;
+    horarios: string;
+    frequencia: 'Semanal' | 'Quinzenal';
+  }
+
+
+
   
