@@ -95,7 +95,6 @@ public class Turma {
         }
     }
 
-
     // ----------------- Getters e setters -----------------------
     public int getId() {
         return id;

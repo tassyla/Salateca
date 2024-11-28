@@ -5,21 +5,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeAlocacoes;
+import br.usp.pcs.labsoft.salateca.repository.SalaRepository;
+import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
 import br.usp.pcs.labsoft.salateca.entity.Turma;
 
 @RestController
 @RequestMapping(produces = "application/json")
 // @CrossOrigin(origins={"http://localhost:3000"})
 public class Controller {
-    private final GerenciadorDeAlocacoes gerenciador;
+    private final SalaRepository salaRepository;
+    private final GerenciadorDeDisciplinas gerenciadorDeDisciplinas;
 
-    public Controller(GerenciadorDeAlocacoes gerenciador) {
-        this.gerenciador = gerenciador;
+    public Controller(SalaRepository salaRepository, 
+                      GerenciadorDeDisciplinas gerenciadorDeDisciplinas) {
+        this.salaRepository = salaRepository;
+        this.gerenciadorDeDisciplinas = gerenciadorDeDisciplinas;
     }
- 
-    @GetMapping(path="/api/turmas/{idDisciplina}")
-    public Iterable<Turma> getTurmas(@PathVariable int idDisciplina) {
-        return gerenciador.getTurmas(idDisciplina);
-    }
+    
+    // Turmas
+
+    // @GetMapping(path="/api/turmas/{idDisciplina}")
+    // public Iterable<Turma> getTurmas(@PathVariable int idDisciplina) {
+    //     return gerenciadorDeDisciplinas.getTurmas(idDisciplina);
+    // }
+
+    // @GetMapping(path="/api/turmas/{idDisciplina}/{idTurma}")
+    // public Turma getTurma(@PathVariable int idDisciplina, @PathVariable int idTurma) {
+    //     return gerenciador.getTurma(idDisciplina, idTurma);
+    // }
 }
