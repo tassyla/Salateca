@@ -1,0 +1,45 @@
+@startuml Sequencia
+skinparam style strictuml
+autoactivate on
+
+actor Alocador
+participant Tela as t
+participant Controlador as c
+participant GerenciadorSalas as gs
+participant Sala as s
+participant Alocação as a
+participant Horários as h
+participant Turma as tu
+
+
+
+Alocador -> t : acessa página de alocações
+t -> c : getAlocacoes()
+c -> gs : getSalas()
+return s[]
+
+loop para cada sala
+    c -> s : getAlocacoes()
+    return a[]
+
+    loop para cada alocação
+        c -> a : getInfoAlocacao()
+
+        alt alocação para disciplina
+            a -> h : getTurma()
+            return turma
+            a -> tu : getDisciplina(turma)
+            return d
+
+        else alocação para atividade
+            a -> h : getAtividade()
+            return atividade
+        end
+        
+return informações da alocação:\n codigoSala\n dataInicio, dataFim\n recorrencia, diaDaSemana\n horarioInicio, horarioFim\n (codigoTurma, codigoDisciplina, nomeDisciplina) ou nomeAtividade
+    end
+return alocações
+end
+return 
+
+@enduml

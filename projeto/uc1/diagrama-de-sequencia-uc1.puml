@@ -8,8 +8,10 @@ participant Controlador as c
 participant GerenciadorDisciplinas as gd
 participant "Disciplina" as d
 participant Turma as tu
+participant RequerComputador as rc
 participant GerenciadorSalas as gs
 participant Sala as s
+participant ComputadorSala as cs
 participant Horários as h
 participant Alocação as a
 participant Alocação as a2
@@ -27,15 +29,24 @@ Alocador -> t : seleciona turma (código_turma, \ncódigo_disciplina)
     t -> c : getInformaçõesTurma(código_turma, código_disciplina)
         c -> gd : getDisciplina(codigo_disciplina)
         return d
-       
-        c -> d : getInformaçõesTurma(código_turma)
-        d -> tu : getInformaçõesTurma(código_turma)
+            c -> d : getInformaçõesTurma(código_turma)
+            d -> tu : getInformaçõesTurma(código_turma)
+            tu -> rc: getInformaçõesEquipamentos() 
+            return info_equipamentos
         tu -> h : getHorários()
         return h[]
-    return t, h[]
-        
-        return t, h[]
-    c -> gs : getSalasCompatíveis(t.quantidadedeAlunos, t.equipamento, t.acessibilidade)
+    return t, h[], info_equipamentos
+return t, h[], info_equipamentos
+
+    c -> gs : getSalasCompatíveis(t.quantidadedeAlunos, t.quantidadeComputadores, t.sistemaOperacional, t.acessibilidade)
+    
+    loop para cada sala
+        gs -> s : getSalaCompativel(t.quantidadedeAlunos, t.quantidadeComputadores,\nt.sistemaOperacional, t.acessibilidade)
+        s -> cs : getEquipamentoCompativel(t.quantidadeComputadores,\nt.sistemaOperacional)
+        return s
+        return s
+    end
+
     return s[]
     loop para cada sala
         c -> s : getConflito(h)
@@ -48,7 +59,6 @@ Alocador -> t : seleciona turma (código_turma, \ncódigo_disciplina)
     
 return informações
 return 
-
 
 Alocador -> t : escolhe sala para \ncada horário ({s,h}[])
     t -> c : alocarSalas({s,h}[])

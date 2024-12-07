@@ -12,11 +12,15 @@ import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 import br.usp.pcs.labsoft.salateca.entity.Disciplina;
 import br.usp.pcs.labsoft.salateca.entity.Sala;
 import br.usp.pcs.labsoft.salateca.entity.Turma;
+import br.usp.pcs.labsoft.salateca.entity.Horario;
+import br.usp.pcs.labsoft.salateca.entity.Alocacao;
+import br.usp.pcs.labsoft.salateca.entity.Atividade;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/alocacoes")
@@ -81,4 +85,68 @@ public class AlocacaoController {
     
         return ResponseEntity.ok(resultado);
     }
+
+@GetMapping("/alocacoes")
+public ResponseEntity<List<Map<String, Object>>> getAlocacoes(){
+    // Buscar todas as salas cadastradas no gerenciador de salas
+    List<Sala> salas = gerenciadorDeSalas.listarSalas();
+
+    // Lista para armazenar as alocações resultantes
+    List<Map<String, Object>> resultado = new ArrayList<>();
+
+    // Itera sobre cada sala
+    for (Sala sala : salas) {
+        // Obtém as alocações da sala atual
+        List<Alocacao> alocacoes = sala.getAlocacoes();
+
+        // Itera sobre cada alocação na sala
+        for (Alocacao alocacao : alocacoes) {
+            // Mapa para armazenar as informações da alocação atual
+            Map<String, Object> alocacaoMap = new HashMap<>();
+
+            // Adiciona o código da sala
+            alocacaoMap.put("codigoSala", sala.getCodigo());
+
+
+
+            // Adiciona informações do horário da alocação
+            Horario horario = alocacao.getHorario();
+            alocacaoMap.put("recorrencia", horario.getRecorrencia());
+            alocacaoMap.put("diaDaSemana", horario.getDiaDaSemana());
+            alocacaoMap.put("horarioInicio", horario.getHorarioInicio());
+            alocacaoMap.put("horarioFim", horario.getHorarioFim());
+
+            // Verifica se a alocação é para uma disciplina ou para uma atividade
+            if (alocacao.getHorario().getTurma() != null) {
+                // Alocação para disciplina
+                Turma turma = alocacao.getHorario().getTurma();
+                Disciplina disciplina = turma.getDisciplina(); // Supondo que Turma tem um método getDisciplina()
+
+                alocacaoMap.put("codigoTurma", turma.getCodigo());
+                alocacaoMap.put("codigoDisciplina", disciplina.getCodigo());
+                alocacaoMap.put("nomeDisciplina", disciplina.getNome());
+
+                // Adiciona as datas de início e fim da alocação
+                alocacaoMap.put("dataInicio", turma.getDataInicio());
+                alocacaoMap.put("dataFim", turma.getDataFim());
+
+            } else if (alocacao.getHorario().getAtividade() != null) {
+                // Alocação para atividade
+                Atividade atividade = alocacao.getHorario().getAtividade();
+                alocacaoMap.put("nomeAtividade", atividade.getNome());
+
+                // Adiciona as datas de início e fim da alocação
+                alocacaoMap.put("dataInicio", atividade.getData());
+                alocacaoMap.put("dataFim", atividade.getData());
+            }
+
+            // Adiciona o mapa da alocação atual à lista de resultados
+            resultado.add(alocacaoMap);
+        }
+    }
+
+    // Retorna a lista de alocações como resposta HTTP 200 OK
+    return ResponseEntity.ok(resultado);
+}
+
 }

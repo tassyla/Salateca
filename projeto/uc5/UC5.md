@@ -11,11 +11,12 @@ Descreve a listagem de todas as alocações cadastradas no sistema.
 #### **Fluxo Básico**
 1. Sistema exibe todas as alocações cadastradas no sistema com as seguintes informações da alocação:
     - Código da sala;
-    - Código da turma;
-    - Código e nome da disciplina;
     - Data de início e fim da alocação;
+    - Recorrência da alocação;
     - Horário da alocação (dia da semana e hora);
-    - Existência de conflito com outras alocações;
+    - Código da turma, código e nome da disciplina caso seja uma reserva para disciplina ;
+    - Nome da atividade, caso seja uma reserva para atividade;
+
 
 #### **Fluxos Alternativos** 
 - 

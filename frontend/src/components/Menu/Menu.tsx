@@ -13,6 +13,7 @@ const Menu = () => (
         <StyledLink href="/alocacoes">Alocações</StyledLink>
         <StyledLink href="/turmas">Turmas</StyledLink>
         <StyledLink href="/salas">Salas</StyledLink>
+        <StyledLink href="/teste"></StyledLink>
 
       </Flex>
     </Flex>

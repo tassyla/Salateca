@@ -14,8 +14,8 @@ import { SalaDeAula, Turma } from './types';
 const turmasExemplo: Turma[] = [
   {
     id: 1,
-    codigo: 'TURMA001',
-    disciplina: 'Matemática',
+    codigo: '2024_1_PCS1234',
+    disciplina: 'PCS1234',
     dataInicio: '2024-01-15',
     dataFim: '2024-06-15',
     horarios: 'Segunda e Quarta, 08:00 - 10:00',
@@ -27,8 +27,21 @@ const turmasExemplo: Turma[] = [
   },
   {
     id: 2,
-    codigo: 'TURMA002',
-    disciplina: 'História',
+    codigo: '2024_2_PCS1234',
+    disciplina: 'PCS1234',
+    dataInicio: '2024-02-10',
+    dataFim: '2024-07-10',
+    horarios: 'Terça e Quinta, 10:00 - 12:00',
+    numAlunos: 25,
+    frequencia: 'Quinzenal',
+    professor: 'Maria Souza',
+    acessibilidade: false,
+    computadores: true,
+  },
+  {
+    id: 2,
+    codigo: '2024_2_PCS1234',
+    disciplina: 'PCS1234',
     dataInicio: '2024-02-10',
     dataFim: '2024-07-10',
     horarios: 'Terça e Quinta, 10:00 - 12:00',
@@ -71,7 +84,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/home" element={ <ClassroomAllocation/> } />
-      
+              <Route path="/teste" element={ <AllocationInformation/> } />
               <Route path="/salas" element={ <ClassroomList salas={salasExemplo} />} />
               <Route path="/turmas" element={ <ClassesList turmas={turmasExemplo} />} />
               <Route path="/alocacoes" element={ <AllocationList/>} />

@@ -28,7 +28,7 @@ Descreve a listagem, cadastro, atualização e remoção de turmas.
 - **FA1: Criar Turma**  
   1. Alocador solicita a criação de uma turma (Passo 2) e informa:
      - Código da turma;
-     - Código e nome da disciplina;
+     - Código da disciplina;
      - Data de início e de fim;
      - Horários de aula (dia da semana e hora);
      - Número de alunos inscritos;

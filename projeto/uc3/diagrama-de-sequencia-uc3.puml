@@ -5,35 +5,48 @@ autoactivate on
 actor Alocador
 participant Tela as t
 participant Controlador as c
-participant Prédio as p
-participant Sala as s
-participant Alocação as a
-participant Alocação as a2
+' participant Prédio as p
+' participant Sala as s
+' participant Alocação as a
+' participant Alocação as a2
+participant "Gerenciafor de Disciplinas" as gd
+participant Disciplina as d
+participant Turma as tu
 
-Alocador -> t : informa dados da atividade\n(nome, data, horário_inicio, \nhorário_fim e número_participantes)
-    t -> c : getSalasCompativeis(número_participantes)
-        c -> p : getSalasCompatíveis\n(número_de_participantes)
-            return s[]
-        loop para cada sala
-        c -> s : getConflitoAtividade(data, horário_inicio, horário_fim)
-        loop para cada alocação
-            s -> a : getConflitoAtividade(data, horário_inicio, horário_fim)
-            return existe_conflito
-        end
-        return existe_pelo_menos_um_conflito
-    end
-    
-return informações
+Alocador -> t : solicita listagem de todas as turmas
+    t -> c : getAllTurmas()
+        c -> gd : getAllDisciplinas()
+            return disciplina[]
+            loop para cada disciplina
+                c -> d : getAllTurmas()
+                return turmaDisciplina[]        
+            end
+    return turmaDisciplinas[]
 return 
 
-Alocador -> t : escolhe sala (s)
-    t -> c : alocarSalaAtividade(s, data, horário_inicio, horário_fim)
-    
-    c -> s : alocarSalaAtividade(s, data, horário_inicio, horário_fim)
-    create a2
-        s -> a2 : << create >>
-    return 
+Alocador -> t : solicita criação de nova turma
+    t -> c : criarTurma(código_turma, código_disciplina,\n data_inicio, data_fim, faixa_horário[],\n número_alunos, recorrência, nome_professor,\n necessidade_equipamento, acessibilidade)
+        c -> gd : getDisciplina(código_disciplina)
+            return d
+        c -> d : criarTurma(código_turma,\n data_inicio, data_fim, faixa_horário[],\n número_alunos, recorrência, nome_professor,\n necessidade_equipamento, acessibilidade)
+        create tu
+            d -> tu : << create >>
+            return 
+        return 
+    return
 return 
-return
+
+Alocador -> t : solicita visualizar turma (t)
+    t -> c : getTurma(código_turma, código_disciplina)
+        c -> gd : getDisciplina()
+            return d
+        c -> d : getTurma(codigo_turma)
+        ' get tu
+        '     d -> tu : << get >>
+        '     return 
+            return t        
+    return t
 return 
+
+
 @enduml

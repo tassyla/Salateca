@@ -5,15 +5,32 @@ autoactivate on
 actor Alocador
 participant Tela as t
 participant Controlador as c
-participant Prédio as p
+participant Atividade as at
+participant RequerComputador as rc
+participant GerenciadorSalas as gs
 participant Sala as s
+participant ComputadorSala as cs
 participant Alocação as a
 participant Alocação as a2
 
-Alocador -> t : informa dados da atividade\n(nome, data, horário_inicio, \nhorário_fim e número_participantes)
-    t -> c : getSalasCompativeis(número_participantes)
-        c -> p : getSalasCompatíveis\n(número_de_participantes)
-            return s[]
+Alocador -> t : informa dados da atividade\n(nome, data, horário_inicio, \nhorário_fim, número_participantes,\nacessibilidade, quantidade_computadores\n e sistema_operacional)
+    t -> c : criaAtividade(nome, data, horário_inicio, \nhorário_fim, número_participantes,\nacessibilidade, quantidade de computadores\n e sistema operacional)
+    create at
+        c -> at : << create >>
+    create rc
+        at -> rc : << create >>
+    return 
+    return 
+
+    c -> gs : getSalasCompatíveis\n(número_de_participantesacessibilidade,\nquantidade_computadores, sistema_operacional)
+    loop para cada sala
+        gs -> s : getSalaCompativel(t.quantidadedeAlunos, t.quantidadeComputadores,\nt.sistemaOperacional, t.acessibilidade)
+        s -> cs : getEquipamentoCompativel(t.quantidadeComputadores,\nt.sistemaOperacional)
+        return s
+        return s
+    end
+
+    return s[]
         loop para cada sala
         c -> s : getConflitoAtividade(data, horário_inicio, horário_fim)
         loop para cada alocação
