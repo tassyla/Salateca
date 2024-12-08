@@ -12,7 +12,6 @@ Alocador
     - Informações de equipamento (número de computadores, sistema operacional e técnico responsável);
     - Acessibilidade;
 
-
 #### **Fluxos Alternativos**
 - FA1: Criar Sala 
     1. O Alocador solicita a criação de uma sala (Passo 2) e informa:
