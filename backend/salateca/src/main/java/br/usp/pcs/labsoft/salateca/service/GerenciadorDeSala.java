@@ -214,4 +214,8 @@ public class GerenciadorDeSala {
 
         return detectarConflitos(horario, salasCompatíveis);
     }
+
+    public void save(Sala sala) {
+    salaRepository.save(sala);
+}
 }

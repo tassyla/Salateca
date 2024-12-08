@@ -28,11 +28,14 @@ public class AlocacaoController {
 
     private final GerenciadorDeSala gerenciadorDeSalas;
     private final DisciplinaService disciplinaService;
+    private final AtividadeService atividadeService;
 
-    public AlocacaoController(GerenciadorDeSala gerenciadorDeSalas, DisciplinaService disciplinaService) {
+    public AlocacaoController(GerenciadorDeSala gerenciadorDeSalas, DisciplinaService disciplinaService, AtividadeService atividadeService) {
         this.gerenciadorDeSalas = gerenciadorDeSalas;
         this.disciplinaService = disciplinaService;
+        this.atividadeService = atividadeService;
     }
+
     @GetMapping("/alocarSalasTurma/{codigo_turma}")
     public ResponseEntity<List<Map<String, Object>>> alocarSalasParaTurma(@PathVariable("codigo_turma") String codigoTurma) {
         // Com o código da turma, é possível encontrar a disciplina e a turma correspondente
@@ -85,6 +88,52 @@ public class AlocacaoController {
     
         return ResponseEntity.ok(resultado);
     }
+
+
+    @GetMapping("/alocarSalasAtividade/{nome_atividade}")
+    public ResponseEntity<List<Map<String, Object>>> alocarSalasParaAtividade(@PathVariable("nome_atividade") String nomeAtividade) {
+
+        Atividade atividade = null;
+        for (Atividade atividade : atividadeService.listarAtividades()) {
+            atividade = atividade.getAtividadeByNome(nomeAtividade);
+            if (atividade != null) {
+                break;
+            }
+        }
+
+        if (atividade == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(List.of(Map.of("erro", "Atividade não encontrada para o nome fornecido")));
+        }
+
+        horario = atividade.getHorario();
+        Map<String, Object> horarioMap = Map.of(
+            "diaDaSemana", horario.getDiaDaSemana(),
+            "horarioInicio", horario.getHorarioInicio().toString(),
+            "horarioFim", horario.getHorarioFim().toString(),
+            "recorrencia", horario.getRecorrencia()
+        );
+            
+        List<Map.Entry<Sala, Boolean>> salasComConflitos = gerenciadorDeSalas.exibirSalasEConflitos(horario);
+
+        List<Map<String, Object>> salasDisponiveis = salasComConflitos.stream().map(salaConflito -> {
+            // Explicitamente retorna um Map<String, Object>
+            Map<String, Object> salaMap = new HashMap<>();
+            salaMap.put("codigo", salaConflito.getKey().getCodigo());  // Acessa o código da sala
+            salaMap.put("capacidade", salaConflito.getKey().getCapacidade());  // Acessa a capacidade da sala
+            salaMap.put("acessibilidade", salaConflito.getKey().getAcessibilidade());  // Acessa a acessibilidade
+            salaMap.put("quantidadeDeComputadores", salaConflito.getKey().getQuantidadeComputadores());  // Acessa a quantidade de computadores
+            salaMap.put("sistemaOperacional", salaConflito.getKey().getSistemaOperacional());  // Acessa o sistema operacional
+            salaMap.put("conflito", salaConflito.getValue());  // Acessa o valor de conflito      
+            return salaMap;
+        }).collect(Collectors.toList());
+
+        return Map.of(
+            "horario", horarioMap,
+            "salasDisponiveis", salasDisponiveis
+        );
+    }
+
 
 @GetMapping("/alocacoes")
 public ResponseEntity<List<Map<String, Object>>> getAlocacoes(){
