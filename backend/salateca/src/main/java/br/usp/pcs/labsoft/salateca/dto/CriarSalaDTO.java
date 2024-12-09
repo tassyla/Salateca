@@ -6,7 +6,7 @@ public class CriarSalaDTO {
     private Boolean acessibilidade;
     private Integer quantidadeComputadores;
     private String sistemaOperacional;
-    private String tecnicosResponsaveis;
+    private String tecnicoResponsavel;
 
     // Getters and setters
     public String getCodigo() {
@@ -49,11 +49,11 @@ public class CriarSalaDTO {
         this.sistemaOperacional = sistemaOperacional;
     }
 
-    public String getTecnicosResponsaveis() {
-        return tecnicosResponsaveis;
+    public String gettecnicoResponsavel() {
+        return tecnicoResponsavel;
     }
 
-    public void setTecnicosResponsaveis(String tecnicosResponsaveis) {
-        this.tecnicosResponsaveis = tecnicosResponsaveis;
+    public void settecnicoResponsavel(String tecnicoResponsavel) {
+        this.tecnicoResponsavel = tecnicoResponsavel;
     }
 }

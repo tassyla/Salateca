@@ -121,6 +121,7 @@ public class Disciplina {
         Turma turma = getTurmaByCodigo(codigo);
         if (turma != null) {
             this.turmas.remove(turma);
+            
         }
     }
 

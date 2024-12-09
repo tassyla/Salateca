@@ -167,7 +167,25 @@ public class TurmaController {
                 turma.setProfessor(editarTurmaDTO.getProfessor());
 
                 // Salvar a turma atualizada e retornar uma resposta apropriada
-                return ResponseEntity.ok(turma);
+                gerenciadorDeDisciplinas.save(disciplina);
+
+                List<Map<String, String>> horariosMap = turma.getHorarios().stream().map(horario -> Map.of(
+                    "diaDaSemana", horario.getDiaDaSemana(),
+                    "horarioInicio", horario.getHorarioInicio().toString(),
+                    "horarioFim", horario.getHorarioFim().toString(),
+                    "recorrencia", horario.getRecorrencia()
+                )).toList();
+
+                Map<String, Object> turmaMap = Map.of(
+                        "codigo", turma.getCodigo(),
+                        "nomeDisciplina", turma.getDisciplina().getNome(),
+                        "quantidadeDeAlunos", turma.getQuantidadeAlunos(),
+                        "professor", turma.getProfessor(),
+                        "acessibilidade", turma.getAcessibilidade(),
+                        "horarios", horariosMap // Adicionando a lista de horários
+                );
+
+                return ResponseEntity.ok(turmaMap);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(Map.of("erro", "Turma não encontrada para o código fornecido"));
@@ -184,7 +202,9 @@ public class TurmaController {
         Optional<Disciplina> disciplinaOpt = this.gerenciadorDeDisciplinas.findByCodigo(codigoDisciplina);
         
         if (disciplinaOpt.isPresent()) {
-            disciplinaOpt.get().deletarTurmaByCodigo(codigo);
+            Disciplina disciplina = disciplinaOpt.get();
+            disciplina.deletarTurmaByCodigo(codigo);
+            gerenciadorDeDisciplinas.save(disciplina);
         }
 
         ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(Map.of("erro", 

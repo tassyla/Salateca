@@ -8,14 +8,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
+
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
+import br.usp.pcs.labsoft.salateca.dto.CriarSalaDTO;
+import br.usp.pcs.labsoft.salateca.dto.EditarSalaDTO;
+import br.usp.pcs.labsoft.salateca.entity.ComputadorSala;
 import br.usp.pcs.labsoft.salateca.entity.Sala;
 import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 
+import java.util.List;
+
+import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 @RestController
@@ -36,15 +47,20 @@ public ResponseEntity<List<Map<String, Object>>> listarTodasSalas() {
         return ResponseEntity.noContent().build();
     }
 
-    // Transformar a lista de objetos Sala em uma lista de mapas com as informações necessárias
-    List<Map<String, Object>> salasMap = salas.stream().map(sala -> Map.of(
-            "codigo", sala.getCodigo(),
-            "capacidade", sala.getCapacidade(),
-            "acessibilidade", sala.getAcessibilidade(),
-            "quantidadeComputadores", sala.getQuantidadeComputadores(),
-            "sistemaOperacional", sala.getSistemaOperacional(),
-            "tecnicosResponsaveis", sala.getTecnicoResponsavel()
-    )).toList();
+
+// Transformar a lista de objetos Sala em uma lista de mapas com as informações necessárias
+List<Map<String, Object>> salasMap = salas.stream()
+        .map(sala -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("codigo", sala.getCodigo());
+            map.put("capacidade", sala.getCapacidade());
+            map.put("acessibilidade", sala.getAcessibilidade());
+            map.put("quantidadeComputadores", sala.getQuantidadeComputadores());
+            map.put("sistemaOperacional", sala.getSistemaOperacional());
+            map.put("tecnicoResponsavel", sala.getTecnicoResponsavel());
+            return map;
+        })
+        .collect(Collectors.toList());
 
     return ResponseEntity.ok(salasMap);
 }
@@ -59,21 +75,31 @@ public ResponseEntity<List<Map<String, Object>>> listarTodasSalas() {
             return ResponseEntity.ok().build();
         }
 
+            Map<String, Object> salaMap;
             // Criar o mapa da sala com as informações necessárias
-            Map<String, Object> salaMap = Map.of(
+            if (sala.getComputadorSala() == null) {
+                salaMap = Map.of(
+                        "codigo", sala.getCodigo(),
+                        "capacidade", sala.getCapacidade(),
+                        "acessibilidade", sala.getAcessibilidade()
+                );
+            }
+            else {
+            salaMap = Map.of(
                     "codigo", sala.getCodigo(),
                     "capacidade", sala.getCapacidade(),
                     "acessibilidade", sala.getAcessibilidade(),
                     "quantidadeComputadores", sala.getQuantidadeComputadores(),
                     "sistemaOperacional", sala.getSistemaOperacional(),
-                    "tecnicosResponsaveis", sala.getTecnicoResponsavel()
+                    "tecnicoResponsavel", sala.getTecnicoResponsavel()
             );
+            }
 
             return ResponseEntity.ok(salaMap);
     }
 
 
-@PostMapping("/salas/criar") // Criar uma nova sala
+@PostMapping("/criar") // Criar uma nova sala
 public ResponseEntity<?> criarSala(@RequestBody CriarSalaDTO criarSalaDTO) {
     try {
         // Criar a nova sala usando o método do gerenciador
@@ -83,8 +109,10 @@ public ResponseEntity<?> criarSala(@RequestBody CriarSalaDTO criarSalaDTO) {
                 criarSalaDTO.getAcessibilidade(),
                 criarSalaDTO.getQuantidadeComputadores(),
                 criarSalaDTO.getSistemaOperacional(),
-                criarSalaDTO.getTecnicosResponsaveis()
+                criarSalaDTO.gettecnicoResponsavel()
         );
+
+        gerenciadorDeSalas.save(novaSala);
 
         // Retornar a resposta com sucesso
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
@@ -95,7 +123,7 @@ public ResponseEntity<?> criarSala(@RequestBody CriarSalaDTO criarSalaDTO) {
                         "acessibilidade", novaSala.getAcessibilidade(),
                         "quantidadeComputadores", novaSala.getQuantidadeComputadores(),
                         "sistemaOperacional", novaSala.getSistemaOperacional(),
-                        "tecnicosResponsaveis", novaSala.getTecnicoResponsavel()
+                        "tecnicoResponsavel", novaSala.getTecnicoResponsavel()
                 )
         ));
     } catch (IllegalArgumentException e) {
@@ -111,20 +139,37 @@ public ResponseEntity<?> criarSala(@RequestBody CriarSalaDTO criarSalaDTO) {
 public ResponseEntity<?> editarSala(
         @PathVariable String codigo,
         @RequestBody EditarSalaDTO editarSalaDTO) {
-    Optional<Sala> salaOpt = gerenciadorDeSalas.findByCodigo(codigo);
+    Sala salaOpt = gerenciadorDeSalas.buscarSala(codigo);
 
-    if (salaOpt.isPresent()) {
-        Sala sala = salaOpt.get();
+    if (salaOpt != null) {
+        Sala sala = salaOpt;
+        ComputadorSala computadorSala = sala.getComputadorSala();
 
         // Atualizar as propriedades da sala
         sala.setCapacidade(editarSalaDTO.getCapacidade());
         sala.setAcessibilidade(editarSalaDTO.getAcessibilidade());
-        sala.setQuantidadeComputadores(editarSalaDTO.getQuantidadeComputadores());
-        sala.setSistemaOperacional(editarSalaDTO.getSistemaOperacional());
-        sala.setTecnicoResponsavel(editarSalaDTO.getTecnicosResponsaveis());
+
+        if (computadorSala == null) {
+            computadorSala = new ComputadorSala();
+            sala.setComputadorSala(computadorSala);
+        }
+        computadorSala.setQuantidadeComputadores(editarSalaDTO.getQuantidadeComputadores());
+        computadorSala.setSistemaOperacional(editarSalaDTO.getSistemaOperacional());
+        computadorSala.setTecnicoResponsavel(editarSalaDTO.getTecnicoResponsavel());
 
         // Salvar a sala atualizada e retornar uma resposta apropriada
         gerenciadorDeSalas.save(sala);
+        if (computadorSala.getSistemaOperacional() == null) {
+            return ResponseEntity.ok(Map.of(
+                    "mensagem", "Sala editada com sucesso!",
+                    "sala", Map.of(
+                            "codigo", sala.getCodigo(),
+                            "capacidade", sala.getCapacidade(),
+                            "acessibilidade", sala.getAcessibilidade()
+                    )
+            ));
+        }
+
         return ResponseEntity.ok(Map.of(
                 "mensagem", "Sala editada com sucesso!",
                 "sala", Map.of(
@@ -133,7 +178,7 @@ public ResponseEntity<?> editarSala(
                         "acessibilidade", sala.getAcessibilidade(),
                         "quantidadeComputadores", sala.getQuantidadeComputadores(),
                         "sistemaOperacional", sala.getSistemaOperacional(),
-                        "tecnicosResponsaveis", sala.getTecnicoResponsavel()
+                        "tecnicoResponsavel", sala.getTecnicoResponsavel()
                 )
         ));
     } else {
@@ -142,15 +187,16 @@ public ResponseEntity<?> editarSala(
     }
 }
 
-
-    @DeleteMapping("/sala/excluir/{codigo}")
+    @DeleteMapping("/excluir/{codigo}")
     public ResponseEntity<?> excluirSala(@PathVariable String codigo) {
-        boolean salaExcluida = gerenciadorDeSalas.excluirSala(codigo);
-
-        if (salaExcluida) {
-            return ResponseEntity.ok(Map.of("mensagem", "Sala excluída com sucesso."));
-        } else {
-            return ResponseEntity.status(404).body(Map.of("erro", "Sala não encontrada para o código fornecido."));
+        Sala sala = gerenciadorDeSalas.buscarSala(codigo);
+        if (sala == null) {
+             System.out.println("Sala não encontrada para o código: " + codigo); // Mensagem no terminal
+            return ResponseEntity.ok().build();
         }
+        gerenciadorDeSalas.excluirSala(codigo);
+
+        return ResponseEntity.ok(Map.of("mensagem", "Sala excluída com sucesso."));
+
     }
 }

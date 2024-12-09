@@ -3,11 +3,14 @@ package br.usp.pcs.labsoft.salateca.controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import br.usp.pcs.labsoft.salateca.service.AtividadeService;
 import br.usp.pcs.labsoft.salateca.service.DisciplinaService;
+
 import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
 import br.usp.pcs.labsoft.salateca.entity.Disciplina;
 import br.usp.pcs.labsoft.salateca.entity.Sala;
@@ -15,6 +18,7 @@ import br.usp.pcs.labsoft.salateca.entity.Turma;
 import br.usp.pcs.labsoft.salateca.entity.Horario;
 import br.usp.pcs.labsoft.salateca.entity.Alocacao;
 import br.usp.pcs.labsoft.salateca.entity.Atividade;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +40,8 @@ public class AlocacaoController {
         this.atividadeService = atividadeService;
     }
 
-    @GetMapping("/alocarSalasTurma/{codigo_turma}")
-    public ResponseEntity<List<Map<String, Object>>> alocarSalasParaTurma(@PathVariable("codigo_turma") String codigoTurma) {
+    @GetMapping("/exibir-salas-turma/{codigo_turma}")
+    public ResponseEntity<List<Map<String, Object>>> exibirSalasParaTurma(@PathVariable("codigo_turma") String codigoTurma) {
         // Com o código da turma, é possível encontrar a disciplina e a turma correspondente
         Turma turma = null;
         for (Disciplina disciplina : disciplinaService.listarDisciplinas()) {
@@ -89,24 +93,17 @@ public class AlocacaoController {
         return ResponseEntity.ok(resultado);
     }
 
+    @GetMapping("/exibir-salas-atividade/{codigo_atividade}")
+    public ResponseEntity<List<Map<String, Object>>> exibirSalasParaAtividade(@PathVariable("codigo_atividade") String codigoAtividade) {
 
-    @GetMapping("/alocarSalasAtividade/{nome_atividade}")
-    public ResponseEntity<List<Map<String, Object>>> alocarSalasParaAtividade(@PathVariable("nome_atividade") String nomeAtividade) {
+        Optional<Atividade> atividadeOpt = atividadeService.buscarAtividade(codigoAtividade);
 
-        Atividade atividade = null;
-        for (Atividade atividade : atividadeService.listarAtividades()) {
-            atividade = atividade.getAtividadeByNome(nomeAtividade);
-            if (atividade != null) {
-                break;
-            }
-        }
-
-        if (atividade == null) {
+        if (atividadeOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(List.of(Map.of("erro", "Atividade não encontrada para o nome fornecido")));
+                    .body(List.of(Map.of("erro", "Atividade não encontrada para o codigo fornecido")));
         }
 
-        horario = atividade.getHorario();
+        Horario horario = atividadeOpt.get().getHorario();
         Map<String, Object> horarioMap = Map.of(
             "diaDaSemana", horario.getDiaDaSemana(),
             "horarioInicio", horario.getHorarioInicio().toString(),
@@ -128,14 +125,15 @@ public class AlocacaoController {
             return salaMap;
         }).collect(Collectors.toList());
 
-        return Map.of(
+        return (ResponseEntity<List<Map<String, Object>>>) Map.of(
             "horario", horarioMap,
             "salasDisponiveis", salasDisponiveis
         );
-    }
+    
+}
 
 
-@GetMapping("/alocacoes")
+@GetMapping("/listar")
 public ResponseEntity<List<Map<String, Object>>> getAlocacoes(){
     // Buscar todas as salas cadastradas no gerenciador de salas
     List<Sala> salas = gerenciadorDeSalas.listarSalas();
@@ -198,4 +196,100 @@ public ResponseEntity<List<Map<String, Object>>> getAlocacoes(){
     return ResponseEntity.ok(resultado);
 }
 
+// Alocar sala para atividade
+// Recebe codigo da atividade e da sala
+// Cria uma alocação
+
+@GetMapping("/alocar-sala-atividade/{codigo_atividade}/{codigo_sala}")
+public ResponseEntity<Map<String, Object>> alocarSalaParaAtividade(@PathVariable("codigo_atividade") String codigoAtividade, @PathVariable("codigo_sala") String codigoSala) {
+    // Busca a atividade pelo código fornecido
+    Optional<Atividade> atividadeOpt = atividadeService.buscarAtividade(codigoAtividade);
+
+    // Verifica se a atividade foi encontrada
+    if (atividadeOpt.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("erro", "Atividade não encontrada para o código fornecido"));
+    }
+
+    // Busca a sala pelo código fornecido
+    Sala sala = gerenciadorDeSalas.buscarSala(codigoSala);
+
+    // Verifica se a sala foi encontrada
+    if (sala == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("erro", "Sala não encontrada para o código fornecido"));
+    }
+
+    Alocacao alocacao = sala.alocarSala(atividadeOpt.get().getHorario());
+    gerenciadorDeSalas.save(sala);
+
+    // Retorna a alocação criada
+    return ResponseEntity.ok(Map.of(
+        "dataInicio", alocacao.getHorario().getDataInicio(),
+        "dataFim", alocacao.getHorario().getDataFim(),
+        "diaDaSemana", alocacao.getHorario().getDiaDaSemana(),
+        "horarioInicio", alocacao.getHorario().getHorarioInicio(),
+        "horarioFim", alocacao.getHorario().getHorarioFim(),
+        "recorrencia", alocacao.getHorario().getRecorrencia(),
+        "nomeAtividade", atividadeOpt.get().getNome(),
+        "codigoSala", sala.getCodigo()
+    ));
+    }
+
+// Alocar sala para turma
+// Recebe codigo da turma e da sala
+// Cria uma alocação
+
+@GetMapping("/alocar-sala-turma/{codigo_turma}/{codigo_sala}/{id_horario}")
+public ResponseEntity<Map<String, Object>> alocarSalaParaTurma(@PathVariable("codigo_turma") String codigoTurma, @PathVariable("codigo_sala") String codigoSala, @PathVariable("id_horario") int idHorario) {
+    // Busca a turma pelo código fornecido
+    Turma turma = null;
+    for (Disciplina disciplina : disciplinaService.listarDisciplinas()) {
+        turma = disciplina.getTurmaByCodigo(codigoTurma);
+        if (turma != null) {
+            break;
+        }
+    }
+
+    // Verifica se a turma foi encontrada
+    if (turma == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("erro", "Turma não encontrada para o código fornecido"));
+    }
+
+    // Busca a sala pelo código fornecido
+    Sala sala = gerenciadorDeSalas.buscarSala(codigoSala);
+
+    // Verifica se a sala foi encontrada
+    if (sala == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("erro", "Sala não encontrada para o código fornecido"));
+    }
+
+    // Busca o horário da turma pelo id fornecido por um loop entre os horários da turma
+    Horario horario = null;
+    for (Horario h : turma.getHorarios()) {
+        if (h.getId() == idHorario) {
+            horario = h;
+            break;
+        }
+    }
+
+    Alocacao alocacao = sala.alocarSala(horario);
+    gerenciadorDeSalas.save(sala);
+
+    // Retorna a alocação criada
+    return ResponseEntity.ok(Map.of(
+        "dataInicio", alocacao.getHorario().getDataInicio(),
+        "dataFim", alocacao.getHorario().getDataFim(),
+        "diaDaSemana", alocacao.getHorario().getDiaDaSemana(),
+        "horarioInicio", alocacao.getHorario().getHorarioInicio(),
+        "horarioFim", alocacao.getHorario().getHorarioFim(),
+        "recorrencia", alocacao.getHorario().getRecorrencia(),
+        "codigoTurma", turma.getCodigo(),
+        "codigoDisciplina", turma.getDisciplina().getCodigo(),
+        "nomeDisciplina", turma.getDisciplina().getNome(),
+        "codigoSala", sala.getCodigo()
+    ));
+}
 }

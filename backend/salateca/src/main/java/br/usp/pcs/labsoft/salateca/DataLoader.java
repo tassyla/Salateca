@@ -11,6 +11,7 @@ import br.usp.pcs.labsoft.salateca.entity.Horario;
 
 import br.usp.pcs.labsoft.salateca.repository.GerenciadorDeDisciplinas;
 import br.usp.pcs.labsoft.salateca.service.GerenciadorDeSala;
+import br.usp.pcs.labsoft.salateca.service.AtividadeService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,10 +25,12 @@ public class DataLoader {
 
     private final GerenciadorDeDisciplinas disciplinas;
     private final GerenciadorDeSala salas;
+    private final AtividadeService atividades;
 
-    public DataLoader(GerenciadorDeDisciplinas disciplinas, GerenciadorDeSala salas) {
+    public DataLoader(GerenciadorDeDisciplinas disciplinas, GerenciadorDeSala salas, AtividadeService atividades) {
         this.disciplinas = disciplinas;
         this.salas = salas;
+        this.atividades = atividades;
     }
 
     @Bean
@@ -204,29 +207,32 @@ public class DataLoader {
             disciplinas.save(d2);
             disciplinas.save(d3);
             // Criar Atividades
-            // Atividade com Computador
-            Atividade a1 = new Atividade("Workshop de Python da Skyrats", 
-                             15,
-                             LocalDate.of(2024, 2, 1),
-                             false, 
-                             "Quarta-feira",
-                            LocalTime.of(14, 0),
-                            LocalTime.of(16, 0),
-                            15, 
-                            "Windows"
-                             );
+            // // Atividade com Computador
+            // Atividade a1 = new Atividade("111",
+            //                 "Workshop de Python da Skyrats", 
+            //                  15,
+            //                  LocalDate.of(2024, 2, 1),
+            //                  false, 
+            //                  "Quarta-feira",
+            //                 LocalTime.of(14, 0),
+            //                 LocalTime.of(16, 0),
+            //                 15, 
+            //                 "Windows"
+            //                  );
 
-            // Atividade sem Computador
-            Atividade a2 = new Atividade("Palestra sobre Empoderamento Feminino", 
-                             30,
-                             LocalDate.of(2024, 2, 1),
-                             true, 
-                             "Sexta-feira",
-                            LocalTime.of(13, 0),
-                            LocalTime.of(14, 0)
-                             );
+            // // Atividade sem Computador
+            // Atividade a2 = new Atividade("222",
+            //                 "Palestra sobre Empoderamento Feminino", 
+            //                  30,
+            //                  LocalDate.of(2024, 2, 1),
+            //                  true, 
+            //                  "Sexta-feira",
+            //                 LocalTime.of(13, 0),
+            //                 LocalTime.of(14, 0)
+            //                  );
 
-            // Criar salas
+            // // Criar salas
+            atividades.criarAtividades();
             // Salas sem computadores
             Sala s1 = salas.criarSala("D1-01", 200, true, 0, null, null);
             Sala s2 = salas.criarSala("D1-02", 50, true, 0, null, null);

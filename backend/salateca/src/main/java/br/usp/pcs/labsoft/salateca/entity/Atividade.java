@@ -14,6 +14,7 @@ public class Atividade {
     @GeneratedValue
     private int id;
 
+    private String codigo;
     private String nome;
     private int quantidadeParticipantes;
     private LocalDate data;
@@ -33,13 +34,15 @@ public class Atividade {
     }
 
     // Atividade não exige computador
-    public Atividade(String nome, 
+    public Atividade(String codigo,
+                    String nome, 
                     int quantidadeParticipantes, 
                     LocalDate data, 
                     boolean acessibilidade,
                     String diaDaSemana, 
                     LocalTime horarioInicio, 
                     LocalTime horarioFim) {
+        this.codigo = codigo;
         this.nome = nome;
         this.quantidadeParticipantes = quantidadeParticipantes;
         this.data = data;
@@ -50,7 +53,8 @@ public class Atividade {
     }
 
     // Atividade exige computador
-    public Atividade(String nome, 
+    public Atividade(String codigo,
+                    String nome, 
                     int quantidadeParticipantes, 
                     LocalDate data, 
                     boolean acessibilidade,
@@ -59,6 +63,7 @@ public class Atividade {
                     LocalTime horarioFim,
                     Integer quantidadeComputadores, 
                     String sistemaOperacional) {
+        this.codigo = codigo;
         this.nome = nome;
         this.quantidadeParticipantes = quantidadeParticipantes;
         this.data = data;
@@ -129,5 +134,13 @@ public class Atividade {
 
     public void setHorario(Horario horario) {
         this.horario = horario;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }
